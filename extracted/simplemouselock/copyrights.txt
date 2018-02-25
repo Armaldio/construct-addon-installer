@@ -1,0 +1,4 @@
+Credits:
+- Plugin based on Tim Hamilton's Mouse Locking plugin. (https://www.scirra.com/forum/plugin-mouse-lock-v0-5-updated_t102112)
+- Icon made by Freepik from: flaticon.com/free-icon/browser-cursor_108212#term=mouse&page=5&position=22
+
