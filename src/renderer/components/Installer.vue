@@ -3,25 +3,46 @@
         <transition name="fade" mode="out-in">
             <div v-if="name !== ''" class="plugin">
                 <div class="main container">
-                    <h2><b>Are you sure you want to install <a target="_blank" :href="pluginUrl">{{ name }}</a> ?</b>
-                    </h2>
+                    <h1><b>Are you sure you want to install <a target="_blank" :href="pluginUrl">{{ name }}</a> ?</b>
+                    </h1>
 
                     <p>{{description}}</p>
 
                     <transition name="fade">
-                        <ul class="list">
-                            <li v-show="downloaded">Downloaded</li>
-                            <li v-show="installed">Installed</li>
-                            <li v-show="cleaned">Cleaning</li>
-                        </ul>
+                        <v-list dense="" v-show="downloaded">
+                            <v-list-tile v-show="downloaded">
+                                <v-list-tile-action>
+                                    <v-icon color="green">done</v-icon>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>Download</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-list-tile v-show="installed">
+                                <v-list-tile-action>
+                                    <v-icon color="green">done</v-icon>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>Installed</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-list-tile v-show="cleaned">
+                                <v-list-tile-action>
+                                    <v-icon color="green">done</v-icon>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>Cleaned</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-list>
                     </transition>
                 </div>
                 <div v-if="!cleaned" class="buttons-bottom">
-                    <button @click="install">Yes</button>
-                    <button @click="$electron.remote.app.quit()">No</button>
+                    <v-btn @click="install">Yes</v-btn>
+                    <v-btn @click="$electron.remote.app.quit()">No</v-btn>
                 </div>
                 <div v-else class="buttons-bottom">
-                    <button @click="$electron.remote.app.quit()">Close</button>
+                    <v-btn @click="$electron.remote.app.quit()">Close</v-btn>
                 </div>
             </div>
 
@@ -191,35 +212,17 @@
 
     .main {
         text-align: center;
-        color: #ffffff;
-        padding-top: 15px;
-        -webkit-app-region: drag
+        -webkit-app-region: drag;
+        padding-top: 35px;
     }
 
     button {
-        background-color: #2196F3;
-        border: 0.1rem solid #2182de;
         -webkit-app-region: no-drag;
     }
 
     a {
         -webkit-app-region: no-drag;
-    }
-
-    a {
         color: #2196F3;
-    }
-
-    ul {
-        list-style: none;
-    }
-
-    ul li {
-
-    }
-
-    ul li:before {
-        content: '✓ ';
     }
 
     .buttons-bottom {

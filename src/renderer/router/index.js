@@ -1,18 +1,23 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'installer',
-      component: require('@/components/Installer').default
-    },
-    {
-      path: '*',
-      redirect: '/'
-    }
-  ]
-})
+    routes: [
+        {
+            path     : '/',
+            name     : 'options',
+            component: require('@/components/Options').default
+        },
+        {
+            path     : '/installer',
+            name     : 'installer',
+            component: require('@/components/Installer').default
+        },
+        {
+            path    : '*',
+            redirect: '/'
+        }
+    ]
+});

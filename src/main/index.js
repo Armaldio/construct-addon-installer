@@ -17,18 +17,19 @@ const winURL = process.env.NODE_ENV === 'development'
                ? `http://localhost:9080`
                : `file://${__dirname}/index.html`;
 
-function createWindow () {
-    /**
-     * Initial window options
-     */
+function createWindow (options = false) {
+    console.log('show options ?', options);
     mainWindow = new BrowserWindow({
         height         : isDev ? 550 : 400,
-        useContentSize : true,
-        resizable      : false,
-        frame          : false,
         width          : 1000,
+        minWidth       : 645,
+        minHeight      : 210,
+        useContentSize : true,
+        resizable      : options,
+        frame          : false,
         backgroundColor: '#212121',
-        show           : false
+        show           : false,
+        transparent    : true
     });
 
     mainWindow.loadURL(winURL);
@@ -44,36 +45,39 @@ function createWindow () {
 }
 
 app.on('ready', () => {
-    let succesSet = app.setAsDefaultProtocolClient('addoninstaller');
-    if (succesSet)
-        console.log('App registered successfully for addoninstaller:// protocol');
+    if (!app.isDefaultProtocolClient('addoninstaller')) {
+        let succesSet = app.setAsDefaultProtocolClient('addoninstaller');
+        if (succesSet) {
+            console.log('App registered successfully for addoninstaller:// protocol');
+            notifier.notify({
+                title  : 'C2 Addon Installer',
+                message: 'The app has be defined to handle plugin links in the browser successfully!',
+                icon   : ''
+            });
+        }
+    }
+    let showOptions = true;
+    if (process.env.TEST_ADDON === 'true')
+        showOptions = false;
 
-    if (isDev)
+    if (!showOptions)
         process.argv.push('addoninstaller://27/simple-mouselock');
     let args    = process.argv;
     global.args = args;
 
-    let found = false;
+    console.log('Test addon ' + process.env.TEST_ADDON);
+
     for (let i = 0; i < args.length; i++) {
         const argument = args[i];
         if (argument.startsWith('addoninstaller://')) {
             notifier.notify({
                 title  : 'C2 Addon Installer',
                 message: 'Analysing plugin...',
-                icon: ''
+                icon   : ''
             });
-            createWindow();
-            found = true;
         }
     }
-    if (!found) {
-        notifier.notify({
-            title  : 'C2 Addon Installer',
-            message: 'The app has be defined to handle plugin links in the browser successfully!',
-                    icon: ''
-        });
-        app.quit();
-    }
+    createWindow(showOptions);
 });
 
 app.on('window-all-closed', () => {
