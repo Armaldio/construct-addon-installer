@@ -27,14 +27,13 @@
 </template>
 
 <script>
+
     export default {
         name: 'installer',
         data () {
             return {};
         },
         async mounted () {
-            let res = await this.$http.get('https://api.github.com/repos/armaldio/AddonInstaller/releases');
-            console.log(res.data);
         }
     };
 </script>

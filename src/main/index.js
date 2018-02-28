@@ -100,14 +100,33 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
-import { autoUpdater } from 'electron-updater'
+import {autoUpdater} from 'electron-updater';
+import path  from 'path';
+
+if (isDev) {
+    autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+}
 
 autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
+    //autoUpdater.quitAndInstall();
+});
+
+autoUpdater.on('update-available', () => {
+    console.log("Update available");
+});
+
+autoUpdater.on('checking-for-update', () => {
+    console.log("Checking for updates, please wait...");
+});
+
+autoUpdater.on('update-not-available', () => {
+    console.log("No updates available");
+});
+
+autoUpdater.on('error', () => {
+    console.log("There was an error checking the version");
+});
 
 app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
+    /*if (process.env.NODE_ENV === 'production')*/ autoUpdater.checkForUpdates();
+});

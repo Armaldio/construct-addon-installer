@@ -1,9 +1,9 @@
 {
   "name": "installer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Quentin Goinaud <armaldio@gmail.com>",
   "description": "Install and manage your C2 addons",
-  "license": "private",
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -61,6 +61,7 @@
     "cheerio": "^1.0.0-rc.2",
     "electron-is-dev": "^0.3.0",
     "electron-titlebar-windows": "^3.0.0",
+    "electron-updater": "^2.20.1",
     "jszip": "^3.1.5",
     "mkdirp": "^0.5.1",
     "node-notifier": "^5.2.1",
