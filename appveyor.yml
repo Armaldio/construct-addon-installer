@@ -3,6 +3,7 @@ version: 0.1.{build}
 branches:
   only:
     - master
+    - dev
 
 image: Visual Studio 2017
 platform:
@@ -18,8 +19,8 @@ init:
   - git config --global core.autocrlf input
 
 install:
-  - ps: Install-Product node 8 x64
-  - choco install yarn --ignore-dependencies
+  - ps: Install-Product node 9 x64
+  # - choco install yarn --ignore-dependencies
   - git reset --hard HEAD
   - yarn
   - node --version
