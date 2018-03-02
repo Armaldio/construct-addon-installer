@@ -12,13 +12,13 @@
 
                     <div class="okInstall" v-if="cleaned">
                         <v-icon color="green" x-large left>fas fa-check</v-icon>
-                        Installed
+                        {{ $t('installer.installedButton') }}
                     </div>
                 </div>
 
                 <div v-if="!cleaned" class="buttons-bottom">
-                    <v-btn @click="install">Yes</v-btn>
-                    <v-btn @click="$electron.remote.app.quit()">No</v-btn>
+                    <v-btn @click="downloadAndInstall">{{ $t('common.yes') }}</v-btn>
+                    <v-btn @click="$electron.remote.app.quit()">{{ $t('common.no') }}</v-btn>
                 </div>
                 <div v-else class="buttons-bottom">
                     <v-btn @click="$electron.remote.app.quit()">Close</v-btn>
@@ -30,17 +30,16 @@
         </transition>
 
         <!-- Modal -->
-        <v-dialog v-model="showDialog" persistent max-width="500">
+        <v-dialog v-model="showDialog" persistent max-width="600">
             <v-card>
-                <v-card-title class="headline">{{ $t("installer.modal.askOverwrite") }}</v-card-title>
+                <v-card-title class="headline">{{ $t('installer.modal.askOverwrite') }}</v-card-title>
                 <v-card-text>
-                    This addon is already installed. You have the choice to replace it or to not install it
+                    {{ $t('installer.modal.alreadyInstalledAddonDescription') }}
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    on modal closed
-                    <v-btn color="red darken-1" flat @click.native="showDialog = false">No</v-btn>
-                    <v-btn color="green darken-1" flat @click.native="showDialog = false">Yes</v-btn>
+                    <v-btn color="red darken-1" flat @click.native="showDialog = false">{{ $t('common.no') }}</v-btn>
+                    <v-btn color="green darken-1" flat @click.native="extract">{{ $t('common.yes') }}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -83,7 +82,12 @@
                 installed : false,
                 cleaned   : false,
 
-                showDialog: true,
+                showDialog: false,
+
+                yesBtnClicked: false,
+
+                tmpFilePath  : {},
+                jsZipInstance: {},
 
                 endpoint      : 'https://www.construct.net',
                 addonsEndpoint: 'construct-2/addons',
@@ -93,12 +97,69 @@
             open (url) {
                 opn(url);
             },
-            install () {
+            check () {
+                new JSZip.external.Promise((resolve, reject) => {
+                    fs.readFile(this.tmpFilePath, (err, data) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(data);
+                        }
+                    });
+                }).then((data) => {
+                    return JSZip.loadAsync(data);
+                }).then((jszip) => {
+                    this.jsZipInstance = jszip;
+
+                    let exist = false;
+                    Object.keys(this.jsZipInstance.files).forEach(async (filename) => {
+                        if (filename !== 'files/' && filename !== 'info.xml') {
+                            let f    = path.relative('files', filename);
+                            let dest = path.join(this.c2addonsPath, 'plugins', f);
+                            console.log(`Checking dest: ${dest}`);
+                            if (fs.existsSync(dest)) {
+                                console.log('-> Exists');
+                                exist = true;
+                            }
+                        }
+                    });
+
+                    console.log('Exists ? ' + exist);
+                    if (exist)
+                        this.showDialog = true;
+                    else
+                        this.extract();
+                });
+            },
+            async extract () {
+                console.log("Extracting");
+                this.showDialog = false;
+                for (let i = 0; i < Object.keys(this.jsZipInstance.files).length; i++) {
+                    let filename = Object.keys(this.jsZipInstance.files)[i];
+
+                    if (filename !== 'files/' && filename !== 'info.xml') {
+                        let content = await this.jsZipInstance.files[filename].async('nodebuffer');
+                        let f       = path.relative('files', filename);
+                        let dest = path.join(this.c2addonsPath, 'plugins', f);
+                        console.log('dest is', dest);
+                        if (path.extname(dest) === '')
+                            mkdirp.sync(dest, {});
+                        else
+                            fs.writeFileSync(dest, content);
+                    }
+                }
+                this.installed = true;
+
+                fs.unlinkSync(this.tmpFilePath);
+
+                this.cleaned = true;
+            },
+            downloadAndInstall () {
                 /**
                  * Download
                  */
-                let tmpFilePath = path.join(os.tmpdir(), `${uuid()}.zip`);
-                console.log('tmpFilePath', tmpFilePath);
+                this.tmpFilePath = path.join(os.tmpdir(), `${uuid()}.zip`);
+                console.log('tmpFilePath', this.tmpFilePath);
 
                 console.log(`Downloading ${this.link}`);
                 progress(request({
@@ -108,19 +169,6 @@
 
                 })).on('progress', (state) => {
                     this.percent = state.percent;
-                    // The state is an object that looks like this:
-                    // {
-                    //     percent: 0.5,               // Overall percent (between 0 to 1)
-                    //     speed: 554732,              // The download speed in bytes/sec
-                    //     size: {
-                    //         total: 90044871,        // The total payload size in bytes
-                    //         transferred: 27610959   // The transferred payload size in bytes
-                    //     },
-                    //     time: {
-                    //         elapsed: 36.235,        // The total elapsed seconds since the start (3 decimals)
-                    //         remaining: 81.403       // The remaining seconds to finish (3 decimals)
-                    //     }
-                    // }
                     console.log('progress', state);
                 }).on('error', (err) => {
                     this.progress = 100;
@@ -130,41 +178,8 @@
                     console.log('File downloaded!');
                     this.downloaded = true;
                     // Do something after request finishes
-                }).pipe(fs.createWriteStream(tmpFilePath).on('close', (file) => {
-
-                    new JSZip.external.Promise((resolve, reject) => {
-                        fs.readFile(tmpFilePath, (err, data) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                resolve(data);
-                            }
-                        });
-                    }).then((data) => {
-                        return JSZip.loadAsync(data);
-                    }).then((jszip) => {
-                        Object.keys(jszip.files).forEach((filename) => {
-                            if (filename !== 'files/' && filename !== 'info.xml') {
-                                jszip.files[filename].async('nodebuffer').then((content) => {
-                                    let f = path.relative('files', filename);
-                                    console.log(f);
-                                    let dest = path.join(this.c2addonsPath, 'plugins', f);
-                                    console.log('dest is', dest);
-                                    /*if (path.extname(dest) === '')
-                                        mkdirp.sync(dest, {});
-                                    else
-                                        fs.writeFileSync(dest, content);*/
-                                });
-                            }
-                        });
-
-                        this.installed = true;
-
-                        fs.unlinkSync(tmpFilePath);
-
-                        this.cleaned = true;
-                    });
-
+                }).pipe(fs.createWriteStream(this.tmpFilePath).on('close', (file) => {
+                    this.check();
                 }));
             }
         },

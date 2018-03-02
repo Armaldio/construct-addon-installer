@@ -30,8 +30,6 @@
 
 ### Social
 ![Discord](https://img.shields.io/discord/116497549237551109.svg)
-
-
 </details>
 
 > Install and manage your installed C2 addons
