@@ -1,6 +1,6 @@
 {
   "name": "installer",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": "Quentin Goinaud <armaldio@gmail.com>",
   "description": "Install and manage your C2 addons",
   "license": "MIT",
