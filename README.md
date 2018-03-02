@@ -32,11 +32,26 @@ Discord: ![Discord](https://img.shields.io/discord/116497549237551109.svg)
 
 <br>
 
+### Compatibility
+| Browser | Compatibility | Link |
+| :-----: | :-----------: | :--: |
+| Mozilla | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | [Store](https://addons.mozilla.org/fr/firefox/addon/construct-addon-installer/) |
+| Chrome  | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | Not yet available |
+
+| OS | Compatibility |
+| :-------: | :-------: |
+| Windows 10 | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg)  |
+| Linux  | ![Untested](https://img.shields.io/badge/compatible-untested-lightgrey.svg)  |
+| Mac  | ![Untested](https://img.shields.io/badge/compatible-untested-lightgrey.svg)  |
+
 ### Guide
 A detailed guide on how to use and install this tool is available [here](https://lnk.armaldio.xyz/addonInstallerGuide)
 
+You can also download last release from the [release page](https://github.com/armaldio/AddonInstaller/releases)
+
 ### Help translate
 If you want to help translate the tool, please use the [Dashboard](http://lnk.armaldio.xyz/AddonInstallerTranslate)
+
 I do not accept PR about translations
 
 #### Build Setup
