@@ -1,1 +1,17 @@
-{}
+{
+    "main": {
+        "setAsDefaultNotification": "Uygulama, tarayıcıdaki eklenti bağlantılarını başarılı bir şekilde işlemek üzere tanımladı!",
+        "analysingPlugin": "Eklenti analiz ediliyor..."
+    },
+    "installer": {
+        "modal": {
+            "askOverwrite": "Eklentinin üzerine yazmak istiyor musunuz?",
+            "alreadyInstalledAddonDescription": "Bu eklenti zaten yüklü. Değiştirme veya yüklememe seçeneğiniz vardır"
+        },
+        "installedButton": "Yüklendi"
+    },
+    "common": {
+        "yes": "Evet",
+        "no": "Hayır"
+    }
+}
