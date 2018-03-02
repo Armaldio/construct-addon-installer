@@ -1,5 +1,9 @@
 # Addon Installer
 
+<details>
+  <summary>Tags and stats</summary>
+
+
 ### CI
 ![Travis](https://img.shields.io/travis/armaldio/AddonInstaller.svg)
 ![AppVeyor](https://img.shields.io/appveyor/ci/armaldio/AddonInstaller.svg)
@@ -28,7 +32,13 @@
 ![Discord](https://img.shields.io/discord/116497549237551109.svg)
 
 
+</details>
+
 > Install and manage your installed C2 addons
+
+### Download
+
+### Help translate
 
 #### Build Setup
 
