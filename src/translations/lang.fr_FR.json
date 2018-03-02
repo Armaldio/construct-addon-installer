@@ -1,10 +1,11 @@
 {
-  "main": {
-    "setAsDefaultNotification": "The app has be defined to handle plugin links in the browser successfully!"
-  },
-  "installer": {
-    "modal": {
-      "askOverwrite": "Êtes-vous sur de vouloir écraser cet addon ?"
+    "main": {
+        "setAsDefaultNotification": "The app has be defined to handle plugin links in the browser successfully!",
+        "analysingPlugin": "Analyse du module en cours...."
+    },
+    "installer": {
+        "modal": {
+            "askOverwrite": "Êtes-vous sur de vouloir écraser cet addon ?"
+        }
     }
-  }
 }
