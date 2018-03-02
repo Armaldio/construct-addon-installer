@@ -64,7 +64,7 @@
         height: 32px;
         padding: 0;
         background-color: #424242;
-        border-radius: 5px 5px 0 0;
+        /*border-radius: 5px 5px 0 0;*/
     }
 
     .titlebar.draggable {

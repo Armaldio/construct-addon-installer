@@ -2,29 +2,28 @@
     <div id="app">
         <v-app dark>
             <v-content>
-                <v-container>
-                    <titlebar></titlebar>
-                    <router-view></router-view>
-                </v-container>
+                <titlebar></titlebar>
+                <router-view></router-view>
             </v-content>
         </v-app>
     </div>
 </template>
 
 <script>
-    import titlebar from '@/components/Titlebar'
+    import titlebar from '@/components/Titlebar';
+    import T from 'crates'
 
     export default {
-        name: 'installer',
+        name      : 'installer',
         components: {
-          titlebar
+            titlebar
         },
         mounted () {
             this.args = this.$electron.remote.getGlobal('args');
             for (let i = 0; i < this.args.length; i++) {
                 const argument = this.args[i];
                 if (argument.startsWith('addoninstaller://')) {
-                    console.log('Starting with an addon');
+                    console.log(T('Starting with an addon'));
                     this.$router.replace('installer');
                 }
             }
@@ -46,8 +45,5 @@
     html {
         overflow-y: auto;
         background-color: transparent;
-    }
-    #app {
-        border-radius: 5px !important;
     }
 </style>

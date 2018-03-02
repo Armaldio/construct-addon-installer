@@ -1,8 +1,13 @@
-import {app, BrowserWindow} from 'electron';
-
+import {app, BrowserWindow, ipcMain} from 'electron';
 import isDev from 'electron-is-dev';
-
+import {autoUpdater} from 'electron-updater';
+import path from 'path';
 import notifier from 'node-notifier';
+import pkg from '../../package';
+import Store from 'electron-store';
+import T from 'crates';
+
+const store = new Store();
 
 /**
  * Set `__static` path to static files in production
@@ -20,16 +25,15 @@ const winURL = process.env.NODE_ENV === 'development'
 function createWindow (options = false) {
     console.log('show options ?', options);
     mainWindow = new BrowserWindow({
-        height         : isDev ? 550 : 400,
+        height         : isDev ? 550 : 345,
         width          : 1000,
-        minWidth       : 645,
+        minWidth       : 925,
         minHeight      : 210,
         useContentSize : true,
         resizable      : options,
         frame          : false,
         backgroundColor: '#212121',
         show           : false,
-        transparent    : true
     });
 
     mainWindow.loadURL(winURL);
@@ -60,8 +64,11 @@ app.on('ready', () => {
     if (process.env.TEST_ADDON === 'true')
         showOptions = false;
 
-    if (!showOptions)
-        process.argv.push('addoninstaller://27/simple-mouselock');
+    if (!showOptions) {
+        process.argv.push('addoninstaller://9/electron');
+    } else
+        checkForUpdates();
+
     let args    = process.argv;
     global.args = args;
 
@@ -92,41 +99,64 @@ app.on('activate', () => {
     }
 });
 
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
+function checkForUpdates () {
+    //autoUpdater.autoDownload = false;
 
-import {autoUpdater} from 'electron-updater';
-import path  from 'path';
+    if (isDev) {
+        autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+        autoUpdater.currentVersion   = pkg.version;
+    }
 
-if (isDev) {
-    autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+    ipcMain.on('page-ready', (event, arg) => {
+        console.log(arg);
+        console.log('Received page ready');
+
+        autoUpdater.checkForUpdates();
+
+        autoUpdater.on('update-downloaded', (file) => {
+            event.sender.send('update', 'update-downloaded');
+
+            //file.exePath = autoUpdater.downloadedUpdateHelper.setupPath;
+
+            //store.set('last-update-downloaded', file);
+
+            ipcMain.on('download', (event, arg) => {
+                if (!isDev) {
+                    autoUpdater.quitAndInstall();
+                } else {
+                    console.log('Unable to update on dev');
+                }
+            });
+        });
+
+        autoUpdater.on('update-available', (currentUpdate) => {
+            //let lastUpdate = store.get('last-update-downloaded');
+
+            //console.log(lastUpdate);
+            //if (lastUpdate.version !== currentUpdate.version)
+            event.sender.send('update', 'update-available');
+            //else {
+            //    console.log("Update already downloaded at " + lastUpdate.exePath);
+            //    autoUpdater.downloadedUpdateHelper.setupPath = lastUpdate.exePath;
+            //    event.sender.send('update', 'update-downloaded');
+            //}
+
+        });
+
+        autoUpdater.on('download-progress', (progress) => {
+            event.sender.send('progress', progress);
+        });
+
+        autoUpdater.on('checking-for-update', () => {
+            event.sender.send('update', 'checking-for-update');
+        });
+
+        autoUpdater.on('update-not-available', () => {
+            event.sender.send('update', 'update-not-available');
+        });
+
+        autoUpdater.on('error', () => {
+            event.sender.send('update', 'error');
+        });
+    });
 }
-
-autoUpdater.on('update-downloaded', () => {
-    //autoUpdater.quitAndInstall();
-});
-
-autoUpdater.on('update-available', () => {
-    console.log("Update available");
-});
-
-autoUpdater.on('checking-for-update', () => {
-    console.log("Checking for updates, please wait...");
-});
-
-autoUpdater.on('update-not-available', () => {
-    console.log("No updates available");
-});
-
-autoUpdater.on('error', () => {
-    console.log("There was an error checking the version");
-});
-
-app.on('ready', () => {
-    /*if (process.env.NODE_ENV === 'production')*/ autoUpdater.checkForUpdates();
-});

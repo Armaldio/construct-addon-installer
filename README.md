@@ -1,4 +1,32 @@
-# installer
+# Addon Installer
+
+### CI
+![Travis](https://img.shields.io/travis/armaldio/AddonInstaller.svg)
+![AppVeyor](https://img.shields.io/appveyor/ci/armaldio/AddonInstaller.svg)
+
+### Github
+![Github All Releases](https://img.shields.io/github/downloads/armaldio/AddonInstaller/total.svg)
+![GitHub release](https://img.shields.io/github/release/armaldio/AddonInstaller.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/armaldio/addoninstaller.svg)
+![license](https://img.shields.io/github/license/armaldio/AddonInstaller.svg)
+
+### Support
+![Liberapay receiving](https://img.shields.io/liberapay/receives/Armaldio.svg)
+
+### Browser extensions
+#### Mozilla
+![Mozilla Add-on](https://img.shields.io/amo/v/xxxxxxx.svg)
+![Mozilla Add-on](https://img.shields.io/amo/users/dustman.svg)
+![Mozilla Add-on](https://img.shields.io/amo/rating/dustman.svg)
+
+#### Chrome
+![Chrome Web Store](https://img.shields.io/chrome-web-store/v/xxxxx.svg)
+![Chrome Web Store](https://img.shields.io/chrome-web-store/users/xxxxxx.svg)
+![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/nimelepbpejjlbmoobocpfnjhihnpked.svg)
+
+### Social
+![Discord](https://img.shields.io/discord/116497549237551109.svg)
+
 
 > Install and manage your installed C2 addons
 
@@ -8,15 +36,9 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:9080
+# serve with hot reload
 npm run dev
 
 # build electron application for production
 npm run build
-
-
 ```
-
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[1c165f7](https://github.com/SimulatedGREG/electron-vue/tree/1c165f7c5e56edaf48be0fbb70838a1af26bb015) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
