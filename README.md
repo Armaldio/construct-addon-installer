@@ -1,12 +1,15 @@
 # Addon Installer
 
-<details>
+> Install and manage your installed C2 addons
+
+ <details>
   <summary>Tags and stats</summary>
 
-
 ### CI
-![Travis](https://img.shields.io/travis/armaldio/AddonInstaller.svg)
-![AppVeyor](https://img.shields.io/appveyor/ci/armaldio/AddonInstaller.svg)
+| Windows | Mac | Linux |
+| :-------: | :---: | :-----: |
+| ![AppVeyor](https://img.shields.io/appveyor/ci/armaldio/AddonInstaller.svg) | ![Travis](https://img.shields.io/travis/armaldio/AddonInstaller.svg) | ![Travis](https://img.shields.io/travis/armaldio/AddonInstaller.svg) |
+
 
 ### Github
 ![Github All Releases](https://img.shields.io/github/downloads/armaldio/AddonInstaller/total.svg)
@@ -18,25 +21,38 @@
 ![Liberapay receiving](https://img.shields.io/liberapay/receives/Armaldio.svg)
 
 ### Browser extensions
-#### Mozilla
-![Mozilla Add-on](https://img.shields.io/amo/v/xxxxxxx.svg)
-![Mozilla Add-on](https://img.shields.io/amo/users/dustman.svg)
-![Mozilla Add-on](https://img.shields.io/amo/rating/dustman.svg)
-
-#### Chrome
-![Chrome Web Store](https://img.shields.io/chrome-web-store/v/xxxxx.svg)
-![Chrome Web Store](https://img.shields.io/chrome-web-store/users/xxxxxx.svg)
-![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/nimelepbpejjlbmoobocpfnjhihnpked.svg)
+| Browser | Version | Users | Rating |
+| :-------: | :-------: | :-----: | :------: |
+| Mozilla | ![Mozilla Add-on](https://img.shields.io/amo/v/construct-addon-installer.svg) | ![Mozilla Add-on](https://img.shields.io/amo/users/construct-addon-installer.svg) | ![Mozilla Add-on](https://img.shields.io/amo/rating/construct-addon-installer.svg)
+| Chrome  | ![Chrome Web Store](https://img.shields.io/chrome-web-store/v/lfhphgaiacpikafeajdlokjafeokddcd.svg) | ![Chrome Web Store](https://img.shields.io/chrome-web-store/users/lfhphgaiacpikafeajdlokjafeokddcd.svg) | ![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/lfhphgaiacpikafeajdlokjafeokddcd.svg)
 
 ### Social
-![Discord](https://img.shields.io/discord/116497549237551109.svg)
+Discord: ![Discord](https://img.shields.io/discord/116497549237551109.svg)
 </details>
 
-> Install and manage your installed C2 addons
+<br>
 
-### Download
+### Compatibility
+| Browser | Compatibility | Link |
+| :-----: | :-----------: | :--: |
+| Mozilla | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | [Store](https://addons.mozilla.org/fr/firefox/addon/construct-addon-installer/) |
+| Chrome  | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | Not yet available |
+
+| OS | Compatibility |
+| :-------: | :-------: |
+| Windows 10 | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg)  |
+| Linux  | ![Untested](https://img.shields.io/badge/compatible-untested-lightgrey.svg)  |
+| Mac  | ![Untested](https://img.shields.io/badge/compatible-untested-lightgrey.svg)  |
+
+### Guide
+A detailed guide on how to use and install this tool is available [here](https://lnk.armaldio.xyz/addonInstallerGuide)
+
+You can also download last release from the [release page](https://github.com/armaldio/AddonInstaller/releases)
 
 ### Help translate
+If you want to help translate the tool, please use the [Dashboard](http://lnk.armaldio.xyz/AddonInstallerTranslate)
+
+I do not accept PR about translations
 
 #### Build Setup
 

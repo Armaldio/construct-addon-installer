@@ -8,10 +8,16 @@
             "askOverwrite": "Êtes-vous sur de vouloir écraser cet addon ?",
             "alreadyInstalledAddonDescription": "Ce module est déjà installé. Souhaitez-vous le remplacer ?"
         },
-        "installedButton": "Installé"
+        "installedButton": "Installé",
+        "mainQuestion": "Êtes-vous sûr de vouloir installer {0} ?"
     },
     "common": {
         "yes": "Oui",
         "no": "Non"
+    },
+    "options": {
+        "noOptionsAvailable": "Il n'y a actuellement aucunes options disponibles",
+        "updating": "Mise à jour",
+        "updateReady": "Mise à jour prête"
     }
 }

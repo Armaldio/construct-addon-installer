@@ -1,0 +1,10 @@
+.install-button {
+    background: #f85753;
+    text-transform: uppercase;
+    color: #fff;
+    font-family: 'Roboto', Arial, sans-serif;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: normal;
+}

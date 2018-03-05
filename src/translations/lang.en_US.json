@@ -1,17 +1,23 @@
 {
-    "main": {
-        "setAsDefaultNotification": "The app has be defined to handle plugin links in the browser successfully!",
-        "analysingPlugin": "Analysing plugin..."
+  "main": {
+    "setAsDefaultNotification": "The app has be defined to handle plugin links in the browser successfully!",
+    "analysingPlugin": "Analysing plugin..."
+  },
+  "installer": {
+    "modal": {
+      "askOverwrite": "Do you want to overwrite the addon ?",
+      "alreadyInstalledAddonDescription": "This addon is already installed. You have the choice to replace it or to not install it"
     },
-    "installer": {
-        "modal": {
-            "askOverwrite": "Do you want to overwrite the addon ?",
-            "alreadyInstalledAddonDescription": "This addon is already installed. You have the choice to replace it or to not install it"
-        },
-        "installedButton": "Installed"
-    },
-    "common": {
-        "yes": "Yes",
-        "no": "No"
-    }
+    "installedButton": "Installed",
+    "mainQuestion": "Are you sure you want to install {0} ?"
+  },
+  "options": {
+    "noOptionsAvailable": "There are currently no options available...",
+    "updating": "Updating",
+    "updateReady": "Update ready"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No"
+  }
 }

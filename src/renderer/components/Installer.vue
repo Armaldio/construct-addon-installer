@@ -4,8 +4,10 @@
             <div v-if="name !== ''" class="plugin">
                 <div class="main container">
                     <img height="64" :src="icon" alt="icon">
-                    <h1><b>Are you sure you want to install <a target="_blank" @click="open(pluginUrl)" href="#">{{ name
-                        }}</a> ?</b>
+                    <h1>
+                        <i18n path="installer.mainQuestion" tag="b" for="tos">
+                            <a target="_blank" @click="open(pluginUrl)">{{ name }}</a>
+                        </i18n>
                     </h1>
 
                     <p>{{description}}</p>
@@ -59,6 +61,10 @@
     import uuid from 'uuid/v4';
     import os from 'os';
     import opn from 'opn';
+    import Raven from 'raven';
+
+    Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440')
+         .install();
 
     export default {
         name      : 'installer',
@@ -132,7 +138,7 @@
                 });
             },
             async extract () {
-                console.log("Extracting");
+                console.log('Extracting');
                 this.showDialog = false;
                 for (let i = 0; i < Object.keys(this.jsZipInstance.files).length; i++) {
                     let filename = Object.keys(this.jsZipInstance.files)[i];
@@ -140,12 +146,19 @@
                     if (filename !== 'files/' && filename !== 'info.xml') {
                         let content = await this.jsZipInstance.files[filename].async('nodebuffer');
                         let f       = path.relative('files', filename);
-                        let dest = path.join(this.c2addonsPath, 'plugins', f);
-                        console.log('dest is', dest);
-                        if (path.extname(dest) === '')
+                        let dest    = path.join(this.c2addonsPath, 'plugins', f);
+
+                        console.log(`Creating ${path.join(dest, "..")}`);
+                        mkdirp.sync(path.join(dest, ".."), {});
+
+                        if (path.extname(dest) === '') {
+                            console.log(`Creating ${dest}`);
                             mkdirp.sync(dest, {});
-                        else
+                        }
+                        else {
+                            console.log(`Writing ${dest}`);
                             fs.writeFileSync(dest, content);
+                        }
                     }
                 }
                 this.installed = true;
@@ -185,35 +198,54 @@
         },
         async mounted () {
             this.args = this.$electron.remote.getGlobal('args');
+            console.log('Arguments are: ', this.args);
             for (let i = 0; i < this.args.length; i++) {
                 const argument = this.args[i];
                 if (argument.startsWith('addoninstaller://')) {
+                    console.log('Found an argument matching the call: ' + argument);
                     this.pluginId  = argument.replace('addoninstaller://', '');
                     this.pluginUrl = `${this.endpoint}/${this.addonsEndpoint}/${this.pluginId}`;
+
+                    console.log('Extracting infos:');
+                    console.log(this.endpoint);
+                    console.log(this.addonsEndpoint);
+                    console.log(this.pluginId);
                 }
             }
 
+            if (this.pluginUrl.includes('https://www.construct.net/tr/construct-2/addons/'))
+                this.pluginUrl = this.pluginUrl.replace('https://www.construct.net/tr/construct-2/addons/', '');
+
+            console.log(`Plugin url is ${this.pluginUrl}`);
+
             const options = {
                 method   : 'GET',
-                url      : `${this.endpoint}/${this.addonsEndpoint}/${this.pluginId}`,
+                url      : encodeURI(this.pluginUrl),
                 transform: function (body) {
                     return cheerio.load(body);
                 }
             };
 
             console.log('Loading page...');
-            this.$ = await rq(options);
+            try {
+                this.$ = await rq(options);
 
-            console.log('Page loaded.');
+                console.log('Page loaded.');
 
-            this.description = this.$('.addonDescription').text();
-            this.link        = `${this.endpoint}/${this.$('div.col.infoCol > h2:nth-child(1)')
-                                                       .next().next().attr('href')}`;
-            this.name        = this.$('.addonIconWrap').parent().text().replace(/<img(.*)\/>/, '').trim();
-            this.icon        = this.$('.addonTopInfo > h1 > span > img').data('src');
+                this.description = this.$('.addonDescription').text();
+                this.link        = `${this.endpoint}/${this.$('div.col.infoCol > h2:nth-child(1)')
+                                                           .next().next().attr('href')}`;
+                this.name        = this.$('.addonIconWrap').parent().text().replace(/<img(.*)\/>/g, '').trim();
+                this.icon        = this.$('.addonTopInfo > h1 > span > img').data('src');
 
-            this.c2addonsPath = path.join(this.$electron.remote.app.getPath('appData'), 'Construct2');
-            console.log('c2addonsPath', this.c2addonsPath);
+                console.log(`name ${this.$('.addonIconWrap').parent().text()}`);
+
+                this.c2addonsPath = path.join(this.$electron.remote.app.getPath('appData'), 'Construct2');
+                console.log('c2addonsPath', this.c2addonsPath);
+            } catch (err) {
+                console.log(err);
+                Raven.captureException(err);
+            }
         }
     };
 </script>

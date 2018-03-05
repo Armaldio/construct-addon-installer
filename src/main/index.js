@@ -1,13 +1,16 @@
-import {app, BrowserWindow, ipcMain} from 'electron';
+import {app, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import isDev from 'electron-is-dev';
 import {autoUpdater} from 'electron-updater';
 import path from 'path';
 import notifier from 'node-notifier';
 import pkg from '../../package';
 import Store from 'electron-store';
-import T from 'crates';
 
 const store = new Store();
+
+import Raven from 'raven';
+
+Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440').install();
 
 /**
  * Set `__static` path to static files in production
@@ -42,14 +45,18 @@ function createWindow (options = false) {
         mainWindow = null;
     });
 
+    globalShortcut.register('CommandOrControl+Shift+I', () => {
+        mainWindow.webContents.toggleDevTools();
+    });
+
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
-        //mainWindow.webContents.toggleDevTools();
+
     });
 }
 
 app.on('ready', () => {
-    if (!app.isDefaultProtocolClient('addoninstaller')) {
+    if (!app.isDefaultProtocolClient('addoninstaller') && !isDev) {
         let succesSet = app.setAsDefaultProtocolClient('addoninstaller');
         if (succesSet) {
             console.log('App registered successfully for addoninstaller:// protocol');
@@ -65,7 +72,7 @@ app.on('ready', () => {
         showOptions = false;
 
     if (!showOptions) {
-        process.argv.push('addoninstaller://9/electron');
+        process.argv.push('addoninstaller://83/greenworks');
     } else
         checkForUpdates();
 
