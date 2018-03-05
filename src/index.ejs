@@ -12,6 +12,12 @@
         require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
       </script>
     <% } %>
+
+    <style>
+      html {
+        overflow-y: auto !important;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>

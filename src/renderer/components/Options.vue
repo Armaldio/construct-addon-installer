@@ -1,13 +1,13 @@
 <template>
     <div class="main">
-        <p class="center">There are currently no options available...</p>
+        <p class="center">{{ $t('options.noOptionsAvailable') }}</p>
 
         <div class="btns">
-            <v-btn disabled>
+            <v-btn @click="open('https://go.armaldio.xyz/AddonInstallerChromeExtension')">
                 <v-icon left dark>fab fa-chrome</v-icon>
                 Chrome
             </v-btn>
-            <v-btn disabled>
+            <v-btn @click="open('https://addons.mozilla.org/fr/firefox/addon/construct-addon-installer/')">
                 <v-icon left dark>fab fa-firefox</v-icon>
                 Firefox
             </v-btn>
@@ -25,29 +25,41 @@
             <v-icon left dark>fas fa-sync-alt fa-spin</v-icon>
         </v-btn>
 
-        <v-btn v-if="updateReady"  class="update">
+        <v-btn v-if="updateReady" class="update">
             <v-icon left dark>fas fa-download</v-icon>
-            Updating...
+            {{ $t('options.updating') }}...
         </v-btn>
 
         <v-btn @click="$electron.ipcRenderer.send('download')" v-if="downloadPercent === 100" class="update">
             <v-icon left dark>fas fa-download</v-icon>
-            Update ready
+            $t("options.updateReady")
         </v-btn>
 
-        <v-progress-linear v-if="downloadPercent !== 100 && downloadPercent !== 0" class="bottom" :value="downloadPercent" height="2" color="success"></v-progress-linear>
+        <v-progress-linear v-if="downloadPercent !== 100 && downloadPercent !== 0" class="bottom"
+                           :value="downloadPercent" height="2" color="success"></v-progress-linear>
     </div>
 </template>
 
 <script>
+    import Raven from 'raven';
+    import opn from 'opn';
+
+    Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440')
+         .install();
+
     export default {
-        name: 'installer',
+        name   : 'installer',
         data () {
             return {
                 checkingForUpdates: false,
                 updateReady       : false,
                 downloadPercent   : 0
             };
+        },
+        methods: {
+            open (url) {
+                opn(url);
+            }
         },
         async mounted () {
             this.$electron.ipcRenderer.send('page-ready');

@@ -1,6 +1,6 @@
 {
   "name": "installer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Quentin Goinaud <armaldio@gmail.com>",
   "description": "Install and manage your C2 addons",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "",
-    "crates": "cross-env node_modules/.bin/crates create --lang 'en,fr' --glob '**/*.js'"
+    "packExt": "node ./BrowserExtension/packer.js"
   },
   "build": {
     "productName": "C2 Addon Installer",
@@ -60,7 +60,6 @@
   "dependencies": {
     "axios": "^0.16.1",
     "cheerio": "^1.0.0-rc.2",
-    "crates": "^0.0.11",
     "electron-is-dev": "^0.3.0",
     "electron-store": "^1.3.0",
     "electron-updater": "^2.20.1",
@@ -69,6 +68,7 @@
     "node-notifier": "^5.2.1",
     "opn": "^5.2.0",
     "os-locale": "^2.1.0",
+    "raven": "^2.4.2",
     "request": "^2.83.0",
     "request-progress": "^3.0.0",
     "request-promise": "^4.2.2",

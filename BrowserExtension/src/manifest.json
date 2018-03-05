@@ -1,0 +1,40 @@
+{
+  "manifest_version": 2,
+  "name": "C2 Addon Installer",
+  "version": "0.0.2",
+  "author": "Armaldio",
+  "description": "Install C2 plugins directly to your computer from the addon list",
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "browser_action": {
+    "default_icon": "icons/border-48.png",
+    "default_title": "C2 Addon Installer"
+  },
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "sprint.min.js",
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.construct.net/construct-2/addons*",
+        "*://*.scirra.com/*",
+        "<all_urls>"
+      ],
+      "js": [
+        "sprint.min.js",
+        "installer.js"
+      ],
+      "css": [
+        "installer.css"
+      ]
+    }
+  ]
+}

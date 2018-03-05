@@ -11,7 +11,6 @@
 
 <script>
     import titlebar from '@/components/Titlebar';
-    import T from 'crates'
 
     export default {
         name      : 'installer',
@@ -23,7 +22,7 @@
             for (let i = 0; i < this.args.length; i++) {
                 const argument = this.args[i];
                 if (argument.startsWith('addoninstaller://')) {
-                    console.log(T('Starting with an addon'));
+                    console.log('Starting with an addon');
                     this.$router.replace('installer');
                 }
             }
@@ -34,7 +33,7 @@
 <style>
     html, body {
         background: rgba(0, 0, 0, 0);
-        overflow-y: auto;
+        overflow-y: auto !important;
     }
 
     body {
