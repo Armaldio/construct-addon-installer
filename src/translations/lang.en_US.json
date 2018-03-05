@@ -14,7 +14,8 @@
   "options": {
     "noOptionsAvailable": "There are currently no options available...",
     "updating": "Updating",
-    "updateReady": "Update ready"
+    "updateReady": "Update ready",
+    "checkingForUpdates": "Checking for updates"
   },
   "common": {
     "yes": "Yes",

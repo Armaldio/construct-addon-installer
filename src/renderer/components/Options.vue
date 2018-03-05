@@ -21,18 +21,19 @@
             </v-btn>
         </div>
 
-        <v-btn v-if="checkingForUpdates" class="update" flat>
+        <v-btn v-if="checkingForUpdates && downloadPercent !== 100" class="update">
             <v-icon left dark>fas fa-sync-alt fa-spin</v-icon>
+            {{ $t('options.checkingForUpdates') }}...
         </v-btn>
 
-        <v-btn v-if="updateReady" class="update">
+        <v-btn v-if="updateReady && downloadPercent !== 100" class="update">
             <v-icon left dark>fas fa-download</v-icon>
             {{ $t('options.updating') }}...
         </v-btn>
 
         <v-btn @click="$electron.ipcRenderer.send('download')" v-if="downloadPercent === 100" class="update">
             <v-icon left dark>fas fa-download</v-icon>
-            $t("options.updateReady")
+            {{ $t("options.updateReady") }}
         </v-btn>
 
         <v-progress-linear v-if="downloadPercent !== 100 && downloadPercent !== 0" class="bottom"
@@ -91,6 +92,7 @@
             this.$electron.ipcRenderer.on('progress', (event, arg) => {
                 //console.log(arg);
                 this.downloadPercent = arg.percent;
+                this.$electron.remote.getCurrentWindow().setProgressBar(this.downloadPercent / 100);
             });
         }
     };

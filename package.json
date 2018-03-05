@@ -1,6 +1,6 @@
 {
   "name": "installer",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "author": "Quentin Goinaud <armaldio@gmail.com>",
   "description": "Install and manage your C2 addons",
   "license": "MIT",
@@ -55,6 +55,19 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
+    },
+    "forceCodeSigning": true,
+    "fileAssociations": {
+      "ext": "c2addon",
+      "name": "Construct 2 Addons",
+      "description": "Open and install .c2addon files",
+      "icon": "icons/icon.ico"
+    },
+    "protocols": {
+      "name": "Addon Installer",
+      "schemes": [
+        "addoninstaller"
+      ]
     }
   },
   "dependencies": {
