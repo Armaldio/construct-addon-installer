@@ -32,6 +32,7 @@ function createWindow (options = false) {
         width          : 1000,
         minWidth       : 925,
         minHeight      : 210,
+        icon           : '256x256.png',
         useContentSize : true,
         resizable      : options,
         frame          : false,
