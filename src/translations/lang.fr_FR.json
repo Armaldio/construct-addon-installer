@@ -14,5 +14,10 @@
     "common": {
         "yes": "Oui",
         "no": "Non"
+    },
+    "options": {
+        "noOptionsAvailable": "Il n'y a actuellement aucunes options disponibles",
+        "updating": "Mise à jour",
+        "updateReady": "Mise à jour prête"
     }
 }
