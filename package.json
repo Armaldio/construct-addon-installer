@@ -19,7 +19,8 @@
     "webext": "npm-run-all webext:*",
     "webext:chrome": "shipit chrome BrowserExtension",
     "webext:firefox": "shipit firefox BrowserExtension",
-    "webext:opera": "shipit opera BrowserExtension"
+    "webext:opera": "shipit opera BrowserExtension",
+    "changelog": "node scripts/changelog-generator.js"
   },
   "build": {
     "productName": "C2 Addon Installer",
@@ -104,6 +105,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
+    "gitlog": "^3.1.2",
     "babili-webpack-plugin": "^0.1.2",
     "cfonts": "^1.1.3",
     "chalk": "^2.1.0",
