@@ -11,3 +11,6 @@ thumbs.db
 BetaTesters.md
 \.idea/
 /extensionStores.json
+/.env
+/web-ext-artifacts/
+/BrowserExtension/.web-extension-id

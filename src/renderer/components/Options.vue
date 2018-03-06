@@ -3,7 +3,7 @@
         <p class="center">{{ $t('options.noOptionsAvailable') }}</p>
 
         <div class="btns">
-            <v-btn @click="open('https://go.armaldio.xyz/AddonInstallerChromeExtension')">
+            <v-btn @click="open('https://chrome.google.com/webstore/detail/lfhphgaiacpikafeajdlokjafeokddcd/')">
                 <v-icon left dark>fab fa-chrome</v-icon>
                 Chrome
             </v-btn>
