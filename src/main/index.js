@@ -32,7 +32,7 @@ function createWindow (options = false) {
         width          : 1000,
         minWidth       : 925,
         minHeight      : 210,
-        icon           : '256x256.png',
+        icon           : __dirname + '/256x256.png',
         useContentSize : true,
         resizable      : options,
         frame          : false,
@@ -64,7 +64,7 @@ app.on('ready', () => {
             notifier.notify({
                 title  : 'C2 Addon Installer',
                 message: 'The app has be defined to handle plugin links in the browser successfully!',
-                icon   : ''
+                icon   : __dirname + '/256x256.png',
             });
         }
     }
@@ -88,7 +88,8 @@ app.on('ready', () => {
             notifier.notify({
                 title  : 'C2 Addon Installer',
                 message: 'Analysing plugin...',
-                icon   : ''
+                icon   : __dirname + '/256x256.png',
+                sound: true
             });
         }
     }
@@ -112,6 +113,7 @@ function checkForUpdates () {
 
     if (isDev) {
         autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+        //noinspection JSUnresolvedVariable
         autoUpdater.currentVersion   = pkg.version;
     }
 
