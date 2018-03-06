@@ -56,6 +56,7 @@ gitlog(options, function (error, commits) {
 ${beautify(commit.rawBody)}
 
 <hr>
+
 `;
     }
     fs.writeFileSync('CHANGELOG.md', string, 'utf8');
