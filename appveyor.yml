@@ -25,7 +25,10 @@ init:
   - node --version
 
 install:
-  - ps: Install-Product node 9 x64
+  - ps: |
+        if (!$isLinux) {
+          Install-Product node 9 x64
+        }
   - git reset --hard HEAD
   - yarn
 
