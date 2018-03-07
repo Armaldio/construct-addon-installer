@@ -14,3 +14,5 @@ BetaTesters.md
 /.env
 /web-ext-artifacts/
 /BrowserExtension/.web-extension-id
+/test/random/
+/test/unit/coverage/

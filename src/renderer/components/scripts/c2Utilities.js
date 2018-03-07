@@ -19,18 +19,22 @@ export default {
             Object.keys(jszip.files).forEach(async (filename) => {
                 if (filename === 'info.xml') {
                     let content = await jszip.files[filename].async('string');
-                    let xml     = await new Promise((resolve, reject) => {
-                        xml2js.parseString(content, (err, result) => {
-                            if (err) reject(err);
-                            else resolve(result);
-                        });
-                    });
+                    let xml     = await this.getAddonInfosFromXml(content);
                     console.log(xml);
                     console.log(JSON.stringify(xml));
                     console.log(JSON.parse(JSON.stringify(xml)));
                 }
             });
             return content;
+        });
+    },
+
+    getAddonInfosFromXml (xml) {
+        return new Promise((resolve, reject) => {
+            xml2js.parseString(xml, (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
         });
     }
 };
