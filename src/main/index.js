@@ -73,7 +73,7 @@ app.on('ready', () => {
         showOptions = false;
 
     if (!showOptions) {
-        process.argv.push('addoninstaller://83/greenworks');
+        process.argv.push('addoninstaller://87/ground-follow');
     } else
         checkForUpdates();
 
