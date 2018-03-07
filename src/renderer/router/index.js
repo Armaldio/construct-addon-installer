@@ -16,6 +16,10 @@ export default new Router({
             component: require('@/components/Installer').default
         },
         {
+            path     : '/updater',
+            name     : 'updater',
+            component: require('@/components/Updater').default
+        }, {
             path    : '*',
             redirect: '/'
         }

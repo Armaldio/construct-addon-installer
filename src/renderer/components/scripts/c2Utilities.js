@@ -29,11 +29,18 @@ export default {
         });
     },
 
-    getAddonInfosFromXml (xml) {
+    getAddonInfosFromXml: function (xml) {
         return new Promise((resolve, reject) => {
-            xml2js.parseString(xml, (err, result) => {
+            xml2js.parseString(xml, (err, addon) => {
                 if (err) reject(err);
-                else resolve(result);
+
+                else {
+                    addon = addon['c2addon'];
+                    for (let key of Object.keys(addon)) {
+                        addon[key] = addon[key].length === 1 ? addon[key][0] : addon[key];
+                    }
+                    resolve(addon);
+                }
             });
         });
     }

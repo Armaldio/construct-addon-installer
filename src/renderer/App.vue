@@ -11,18 +11,22 @@
 
 <script>
     import titlebar from '@/components/Titlebar';
+    import c2Utilities from './components/scripts/c2Utilities';
 
     export default {
         name      : 'installer',
         components: {
             titlebar
         },
-        mounted () {
+        mounted   : async function () {
+            //let addonInfos = await c2Utilities.getAddonInfos('');
+            //console.log(addonInfos);
+
             this.args = this.$electron.remote.getGlobal('args');
             for (let i = 0; i < this.args.length; i++) {
                 const argument = this.args[i];
                 if (argument.startsWith('addoninstaller://')) {
-                    console.log('Starting with an addon');
+                    //console.log(`Addon type: ${addonInfos['type']}`);
                     this.$router.replace('installer');
                 }
             }

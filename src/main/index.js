@@ -68,6 +68,7 @@ app.on('ready', () => {
             });
         }
     }
+
     let showOptions = true;
     if (process.env.TEST_ADDON === 'true')
         showOptions = false;
