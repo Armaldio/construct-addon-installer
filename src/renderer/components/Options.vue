@@ -21,19 +21,24 @@
             </v-btn>
         </div>
 
-        <v-btn v-if="checkingForUpdates && downloadPercent !== 100" class="update">
+        <v-btn v-show="updateAvailable" @click="InstallUpdate" class="update">
+            <v-icon left dark>fas fa-download</v-icon>
+            Update available. Click here to update
+        </v-btn>
+
+        <v-btn v-show="checkingForUpdates && downloadPercent !== 100" class="update">
             <v-icon left dark>fas fa-sync-alt fa-spin</v-icon>
             {{ $t('options.checkingForUpdates') }}...
         </v-btn>
 
-        <v-btn v-if="updateReady && downloadPercent !== 100" class="update">
+        <v-btn v-show="updateReady && downloadPercent !== 100" class="update">
             <v-icon left dark>fas fa-download</v-icon>
             {{ $t('options.updating') }}...
         </v-btn>
 
-        <v-btn @click="$electron.ipcRenderer.send('download')" v-if="downloadPercent === 100" class="update">
+        <v-btn @click="$electron.ipcRenderer.send('download')" v-show="downloadPercent === 100" class="update">
             <v-icon left dark>fas fa-download</v-icon>
-            {{ $t("options.updateReady") }}
+            {{ $t('options.updateReady') }}
         </v-btn>
 
         <v-progress-linear v-if="downloadPercent !== 100 && downloadPercent !== 0" class="bottom"
@@ -54,24 +59,40 @@
             return {
                 checkingForUpdates: false,
                 updateReady       : false,
-                downloadPercent   : 0
+                downloadPercent   : 0,
+                updateAvailable   : false
             };
         },
         methods: {
             open (url) {
                 opn(url);
+            },
+            InstallUpdate () {
+                let args = process.argv.slice(1).concat(['--update']);
+                console.log(args);
+                this.$electron.remote.app.relaunch({args: args});
+                this.$electron.remote.app.exit(0);
             }
         },
         async mounted () {
+            /*this.$electron.ipcRenderer.on('update', (event, arg) => {
+                console.log(arg);
+                switch (arg) {
+                    case 'update-available':
+                        this.updateAvailable = true;
+                        break;
+                }
+            });
             this.$electron.ipcRenderer.send('page-ready');
-            console.log('Sent page ready');
+            console.log('Sent page ready');*/
 
-            this.$electron.ipcRenderer.on('update', (event, arg) => {
+            /*this.$electron.ipcRenderer.on('update', (event, arg) => {
                 console.log(arg);
                 switch (arg) {
                     case 'update-downloaded':
                         this.checkingForUpdates = false;
                         this.updateReady        = true;
+                        this.progress = 100;
                         break;
                     case 'update-available':
                         this.checkingForUpdates = false;
@@ -93,7 +114,7 @@
                 //console.log(arg);
                 this.downloadPercent = arg.percent;
                 this.$electron.remote.getCurrentWindow().setProgressBar(this.downloadPercent / 100);
-            });
+            });*/
         }
     };
 </script>

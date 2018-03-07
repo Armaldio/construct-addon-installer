@@ -12,6 +12,7 @@
 <script>
     import titlebar from '@/components/Titlebar';
     import c2Utilities from './components/scripts/c2Utilities';
+    import notifier from 'node-notifier';
 
     export default {
         name      : 'installer',
@@ -25,8 +26,16 @@
             this.args = this.$electron.remote.getGlobal('args');
             for (let i = 0; i < this.args.length; i++) {
                 const argument = this.args[i];
-                if (argument.startsWith('addoninstaller://')) {
+                if (argument === '--update') {
+                    this.$router.replace('updater');
+                } else if (argument.startsWith('addoninstaller://')) {
                     //console.log(`Addon type: ${addonInfos['type']}`);
+                    /*notifier.notify({
+                        title  : 'C2 Addon Installer',
+                        message: 'Analysing plugin...',
+                        icon   : __dirname + '/256x256.png',
+                        sound  : true
+                    });*/
                     this.$router.replace('installer');
                 }
             }
@@ -36,12 +45,12 @@
 
 <style>
     html, body {
-        background: rgba(0, 0, 0, 0);
+        background: #303030;
         overflow-y: auto !important;
     }
 
     body {
-        background: #212121;
+        background: #303030;
         font-family: 'Roboto', sans-serif;
     }
 

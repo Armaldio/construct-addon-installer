@@ -1,49 +1,23 @@
 <template>
     <div class="main">
-        <p class="center">{{ $t('options.noOptionsAvailable') }}</p>
+        <p class="center" v-show="!updateDownloaded">Update in progress...</p>
 
         <div class="btns">
-            <v-btn @click="open('https://chrome.google.com/webstore/detail/lfhphgaiacpikafeajdlokjafeokddcd/')">
-                <v-icon left dark>fab fa-chrome</v-icon>
-                Chrome
+            <v-btn @click="$electron.ipcRenderer.send('install')" v-show="updateDownloaded" class="center">
+                <v-icon left dark>fas fa-download</v-icon>
+                {{ $t('options.updateReady') }}
             </v-btn>
-            <v-btn @click="open('https://addons.mozilla.org/fr/firefox/addon/construct-addon-installer/')">
-                <v-icon left dark>fab fa-firefox</v-icon>
-                Firefox
-            </v-btn>
-            <v-btn disabled>
-                <v-icon left dark>fab fa-edge</v-icon>
-                Edge
-            </v-btn>
-            <v-btn disabled>
-                <v-icon left dark>fab fa-opera</v-icon>
-                Opera
-            </v-btn>
+
+            <v-progress-linear v-show="!updateDownloaded" class="bottom"
+                               :value="downloadPercent" height="5" color="success"></v-progress-linear>
         </div>
-
-        <v-btn v-if="checkingForUpdates && downloadPercent !== 100" class="update">
-            <v-icon left dark>fas fa-sync-alt fa-spin</v-icon>
-            {{ $t('options.checkingForUpdates') }}...
-        </v-btn>
-
-        <v-btn v-if="updateReady && downloadPercent !== 100" class="update">
-            <v-icon left dark>fas fa-download</v-icon>
-            {{ $t('options.updating') }}...
-        </v-btn>
-
-        <v-btn @click="$electron.ipcRenderer.send('download')" v-if="downloadPercent === 100" class="update">
-            <v-icon left dark>fas fa-download</v-icon>
-            {{ $t("options.updateReady") }}
-        </v-btn>
-
-        <v-progress-linear v-if="downloadPercent !== 100 && downloadPercent !== 0" class="bottom"
-                           :value="downloadPercent" height="2" color="success"></v-progress-linear>
     </div>
 </template>
 
 <script>
     import Raven from 'raven';
     import opn from 'opn';
+    import {autoUpdater} from 'electron-updater';
 
     Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440')
          .install();
@@ -52,9 +26,8 @@
         name   : 'options',
         data () {
             return {
-                checkingForUpdates: false,
-                updateReady       : false,
-                downloadPercent   : 0
+                downloadPercent : 0,
+                updateDownloaded: false
             };
         },
         methods: {
@@ -70,21 +43,14 @@
                 console.log(arg);
                 switch (arg) {
                     case 'update-downloaded':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = true;
+                        this.updateDownloaded = true;
                         break;
                     case 'update-available':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = true;
-                        break;
-                    case 'checking-for-update':
-                        this.checkingForUpdates = true;
-                        this.updateReady        = false;
+                        this.$electron.ipcRenderer.send('download');
                         break;
                     case 'update-not-available':
                     case 'error':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = false;
+                        this.text = 'No updates available...';
                         break;
                 }
             });
@@ -116,7 +82,6 @@
 
     .btns {
         position: absolute;
-        bottom: 3px;
         left: 0;
         right: 0;
         text-align: center;
@@ -130,7 +95,6 @@
         text-align: center;
         margin-top: 50vh;
         transform: translateY(-50%);
-        font-size: 25px;
         color: grey;
     }
 </style>

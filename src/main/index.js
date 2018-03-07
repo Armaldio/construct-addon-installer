@@ -1,16 +1,15 @@
 import {app, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import isDev from 'electron-is-dev';
-import {autoUpdater} from 'electron-updater';
-import path from 'path';
-import notifier from 'node-notifier';
-import pkg from '../../package';
-import Store from 'electron-store';
+/*import Store from 'electron-store';*/
+/*import pkg from '../../package';*/
 
-const store = new Store();
+/*const store = new Store();*/
 
-import Raven from 'raven';
+/*import Raven from 'raven';
 
-Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440').install();
+Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440').install();*/
+
+let hrstart = process.hrtime();
 
 /**
  * Set `__static` path to static files in production
@@ -25,8 +24,7 @@ const winURL = process.env.NODE_ENV === 'development'
                ? `http://localhost:9080`
                : `file://${__dirname}/index.html`;
 
-function createWindow (options = false) {
-    console.log('show options ?', options);
+function createWindow () {
     mainWindow = new BrowserWindow({
         height         : isDev ? 550 : 345,
         width          : 1000,
@@ -34,13 +32,16 @@ function createWindow (options = false) {
         minHeight      : 210,
         icon           : __dirname + '/256x256.png',
         useContentSize : true,
-        resizable      : options,
+        resizable      : false,
         frame          : false,
-        backgroundColor: '#212121',
+        backgroundColor: '#303030',
         show           : false,
     });
 
     mainWindow.loadURL(winURL);
+
+    let hrend = process.hrtime(hrstart);
+    console.info('Start show time (hr): %ds %dms', hrend[0], hrend[1] / 1000000);
 
     mainWindow.on('closed', () => {
         mainWindow = null;
@@ -50,51 +51,44 @@ function createWindow (options = false) {
         mainWindow.webContents.toggleDevTools();
     });
 
-    mainWindow.once('ready-to-show', () => {
+    //mainWindow.once('ready-to-show', () => {
+    mainWindow.on('page-title-updated', () => {
         mainWindow.show();
+    });
 
+    mainWindow.once('show', () => {
+        let hrend = process.hrtime(hrstart);
+        console.info('Show window time (hr): %ds %dms', hrend[0], hrend[1] / 1000000);
+
+        if (!app.isDefaultProtocolClient('addoninstaller') && !isDev) {
+            let succesSet = app.setAsDefaultProtocolClient('addoninstaller');
+            if (succesSet) {
+                console.log('App registered successfully for addoninstaller:// protocol');
+                /*notifier.notify({
+                    title  : 'C2 Addon Installer',
+                    message: 'The app has be defined to handle plugin links in the browser successfully!',
+                    icon   : __dirname + '/256x256.png',
+                });*/
+            }
+        }
+
+        checkForUpdates();
     });
 }
 
 app.on('ready', () => {
-    if (!app.isDefaultProtocolClient('addoninstaller') && !isDev) {
-        let succesSet = app.setAsDefaultProtocolClient('addoninstaller');
-        if (succesSet) {
-            console.log('App registered successfully for addoninstaller:// protocol');
-            notifier.notify({
-                title  : 'C2 Addon Installer',
-                message: 'The app has be defined to handle plugin links in the browser successfully!',
-                icon   : __dirname + '/256x256.png',
-            });
-        }
-    }
+    let hrend = process.hrtime(hrstart);
+    console.info('Ready time (hr): %ds %dms', hrend[0], hrend[1] / 1000000);
 
-    let showOptions = true;
     if (process.env.TEST_ADDON === 'true')
-        showOptions = false;
-
-    if (!showOptions) {
         process.argv.push('addoninstaller://87/ground-follow');
-    } else
-        checkForUpdates();
+    else if (process.env.TEST_UPDATER === 'true')
+        process.argv.push('--update');
 
     let args    = process.argv;
     global.args = args;
 
-    console.log('Test addon ' + process.env.TEST_ADDON);
-
-    for (let i = 0; i < args.length; i++) {
-        const argument = args[i];
-        if (argument.startsWith('addoninstaller://')) {
-            notifier.notify({
-                title  : 'C2 Addon Installer',
-                message: 'Analysing plugin...',
-                icon   : __dirname + '/256x256.png',
-                sound: true
-            });
-        }
-    }
-    createWindow(showOptions);
+    createWindow();
 });
 
 app.on('window-all-closed', () => {
@@ -109,49 +103,39 @@ app.on('activate', () => {
     }
 });
 
-function checkForUpdates () {
-    //autoUpdater.autoDownload = false;
+async function checkForUpdates () {
+
+    let pkg         = await import('../../package');
+    let autoUpdater = await import ('electron-updater');
+
+    autoUpdater.autoUpdater.autoDownload = false;
 
     if (isDev) {
-        autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+        autoUpdater.updateConfigPath = __dirname + '/dev-app-update.yml';
         //noinspection JSUnresolvedVariable
         autoUpdater.currentVersion   = pkg.version;
     }
 
     ipcMain.on('page-ready', (event, arg) => {
-        console.log(arg);
-        console.log('Received page ready');
-
         autoUpdater.checkForUpdates();
+
+        ipcMain.on('download', (event, arg) => {
+            autoUpdater.downloadUpdate();
+        });
+
+        ipcMain.on('install', (event, arg) => {
+            if (!isDev)
+                autoUpdater.quitAndInstall(false, true);
+            else
+                console.log('Cannot update as dev');
+        });
 
         autoUpdater.on('update-downloaded', (file) => {
             event.sender.send('update', 'update-downloaded');
-
-            //file.exePath = autoUpdater.downloadedUpdateHelper.setupPath;
-
-            //store.set('last-update-downloaded', file);
-
-            ipcMain.on('download', (event, arg) => {
-                if (!isDev) {
-                    autoUpdater.quitAndInstall();
-                } else {
-                    console.log('Unable to update on dev');
-                }
-            });
         });
 
         autoUpdater.on('update-available', (currentUpdate) => {
-            //let lastUpdate = store.get('last-update-downloaded');
-
-            //console.log(lastUpdate);
-            //if (lastUpdate.version !== currentUpdate.version)
             event.sender.send('update', 'update-available');
-            //else {
-            //    console.log("Update already downloaded at " + lastUpdate.exePath);
-            //    autoUpdater.downloadedUpdateHelper.setupPath = lastUpdate.exePath;
-            //    event.sender.send('update', 'update-downloaded');
-            //}
-
         });
 
         autoUpdater.on('download-progress', (progress) => {
