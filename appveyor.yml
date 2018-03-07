@@ -1,5 +1,10 @@
 version: 0.1.{build}
 
+stack: node 9
+
+environment:
+    - nodejs_version: '9'
+
 #branches:
 #  only:
 #    - master
@@ -20,13 +25,11 @@ cache:
 
 init:
   - git config --global core.autocrlf input
-
-stack: node 9
+  - node --version
 
 install:
   - git reset --hard HEAD
   - yarn
-  - node --version
 
 build_script:
   - yarn build
