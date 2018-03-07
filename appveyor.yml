@@ -5,7 +5,10 @@ branches:
     - master
     - dev
 
-image: Visual Studio 2017
+image:
+  - Visual Studio 2017
+  - ubuntu
+
 platform:
   - x64
 
@@ -18,9 +21,9 @@ cache:
 init:
   - git config --global core.autocrlf input
 
+stack: node 9
+
 install:
-  - ps: Install-Product node 9 x64
-  # - choco install yarn --ignore-dependencies
   - git reset --hard HEAD
   - yarn
   - node --version
