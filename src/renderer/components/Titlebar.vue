@@ -9,15 +9,15 @@
             </div>
             <div class="titlebar-resize" @click="resize">
                 <svg class="fullscreen-svg" x="0px" y="0px" viewBox="0 0 10 10">
-                    <path fill="#fff" d="M 0 0 L 0 10 L 10 10 L 10 0 L 0 0 z M 1 1 L 9 1 L 9 9 L 1 9 L 1 1 z "/>
+                    <path fill="#212121" d="M 0 0 L 0 10 L 10 10 L 10 0 L 0 0 z M 1 1 L 9 1 L 9 9 L 1 9 L 1 1 z "/>
                 </svg>
                 <svg class="maximize-svg" x="0px" y="0px" viewBox="0 0 10 10">
                     <mask id="Mask">
-                        <rect fill="#FFFFFF" width="10" height="10"></rect>
-                        <path fill="#fff" d="M 3 1 L 9 1 L 9 7 L 8 7 L 8 2 L 3 2 L 3 1 z"/>
-                        <path fill="#fff" d="M 1 3 L 7 3 L 7 9 L 1 9 L 1 3 z"/>
+                        <rect fill="#212121" width="10" height="10"></rect>
+                        <path fill="#212121" d="M 3 1 L 9 1 L 9 7 L 8 7 L 8 2 L 3 2 L 3 1 z"/>
+                        <path fill="#212121" d="M 1 3 L 7 3 L 7 9 L 1 9 L 1 3 z"/>
                     </mask>
-                    <path fill="#fff" d="M 2 0 L 10 0 L 10 8 L 8 8 L 8 10 L 0 10 L 0 2 L 2 2 L 2 0 z"
+                    <path fill="#212121" d="M 2 0 L 10 0 L 10 8 L 8 8 L 8 10 L 0 10 L 0 2 L 2 2 L 2 0 z"
                           mask="url(#Mask)"/>
                 </svg>
             </div>
@@ -132,7 +132,7 @@
     }
 
     .titlebar-minimize:hover,
-    .titlebar-resize:hover,
+    /*.titlebar-resize:hover,*/
     .titlebar-fullscreen:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
