@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "C2 Addon Installer",
-  "version": "0.0.2",
+  "name": "Addon Installer",
+  "version": "0.0.4",
   "author": "Armaldio",
   "description": "Install C2 plugins directly to your computer from the addon list",
   "icons": {
@@ -12,13 +12,12 @@
   ],
   "browser_action": {
     "default_icon": "icons/border-48.png",
-    "default_title": "C2 Addon Installer"
+    "default_title": "Addon Installer"
   },
   "background": {
     "persistent": true,
     "scripts": [
-      "sprint.min.js",
-      "background.js"
+      "sprint.min.js"
     ]
   },
   "content_scripts": [
@@ -36,5 +35,8 @@
         "installer.css"
       ]
     }
+  ],
+  "web_accessible_resources": [
+    "icons/border-48.png"
   ]
 }

@@ -35,7 +35,7 @@
         name   : 'Titlebar',
         methods: {
             close () {
-                this.$electron.remote.app.exit(0);
+                this.$electron.remote.getCurrentWindow().close();
             },
             resize () {
                 /*this.$electron.remote.getCurrentWindow().restore();

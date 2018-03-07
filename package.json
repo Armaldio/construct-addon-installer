@@ -1,6 +1,6 @@
 {
   "name": "installer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Quentin Goinaud <armaldio@gmail.com>",
   "description": "Install and manage your C2 addons",
   "license": "MIT",
@@ -16,7 +16,13 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "",
-    "packExt": "node ./BrowserExtension/packer.js"
+    "webext": "npm-run-all webext:*",
+    "webext:chrome": "shipit chrome BrowserExtension",
+    "webext:firefox": "shipit firefox BrowserExtension",
+    "webext:opera": "shipit opera BrowserExtension",
+    "changelog": "node scripts/changelog-generator.js",
+    "test": "npm run unit",
+    "unit": "karma start test/unit/karma.conf.js"
   },
   "build": {
     "productName": "C2 Addon Installer",
@@ -55,6 +61,19 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
+    },
+    "forceCodeSigning": false,
+    "fileAssociations": {
+      "ext": "c2addon",
+      "name": "Construct 2 Addons",
+      "description": "Open and install .c2addon files",
+      "icon": "icons/icon.ico"
+    },
+    "protocols": {
+      "name": "Addon Installer",
+      "schemes": [
+        "addoninstaller"
+      ]
     }
   },
   "dependencies": {
@@ -78,18 +97,36 @@
     "vue-i18n": "^7.4.2",
     "vue-router": "^2.5.3",
     "vuetify": "^1.0.3",
-    "vuex": "^2.3.1"
+    "vuex": "^2.3.1",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "babel-core": "^6.25.0",
+    "@wext/shipit": "^0.1.2",
+    "ava": "^0.25.0",
+    "inject-loader": "^3.0.0",
+    "karma": "^1.3.0",
+    "karma-chai": "^0.1.0",
+    "karma-coverage": "^1.1.1",
+    "karma-electron": "^5.1.1",
+    "karma-mocha": "^1.2.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-spec-reporter": "^0.0.31",
+    "karma-webpack": "^2.0.1",
+    "webpack-merge": "^4.1.0",
+    "babel-plugin-istanbul": "^4.1.1",
+    "chai": "^4.0.0",
+    "mocha": "^3.0.2",
+    "babel-core": "^6.26.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "babel-register": "^6.24.1",
+    "babel-register": "^6.26.0",
     "babili-webpack-plugin": "^0.1.2",
     "cfonts": "^1.1.3",
     "chalk": "^2.1.0",
+    "chrome-webstore-upload": "^0.2.1",
     "copy-webpack-plugin": "^4.0.1",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.4",
@@ -101,9 +138,11 @@
     "electron-devtools-installer": "^2.2.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
+    "gitlog": "^3.1.2",
     "html-webpack-plugin": "^2.30.1",
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
+    "npm-run-all": "^4.1.2",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "vue-html-loader": "^1.2.4",

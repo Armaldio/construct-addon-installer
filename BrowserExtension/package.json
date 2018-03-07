@@ -1,9 +1,0 @@
-{
-  "name": "BrowserExtension",
-  "version": "1.0.0",
-  "main": "packer.js",
-  "license": "MIT",
-  "dependencies": {
-    "archiver": "^2.1.1"
-  }
-}

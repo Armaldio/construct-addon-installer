@@ -18,11 +18,16 @@
                     </div>
                 </div>
 
-                <div v-if="!cleaned" class="buttons-bottom">
+                <div v-show="!cleaned && !extracting" class="buttons-bottom">
                     <v-btn @click="downloadAndInstall">{{ $t('common.yes') }}</v-btn>
                     <v-btn @click="$electron.remote.app.quit()">{{ $t('common.no') }}</v-btn>
                 </div>
-                <div v-else class="buttons-bottom">
+                <div v-show="extracting" class="buttons-bottom">
+                    <v-btn>
+                        <v-icon dark>fas fa-sync-alt fa-spin</v-icon>
+                    </v-btn>
+                </div>
+                <div v-show="cleaned" class="buttons-bottom">
                     <v-btn @click="$electron.remote.app.quit()">Close</v-btn>
                 </div>
             </div>
@@ -62,6 +67,7 @@
     import os from 'os';
     import opn from 'opn';
     import Raven from 'raven';
+    import c2Utilities from './scripts/c2Utilities';
 
     Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440')
          .install();
@@ -89,6 +95,7 @@
                 cleaned   : false,
 
                 showDialog: false,
+                extracting: false,
 
                 yesBtnClicked: false,
 
@@ -139,6 +146,7 @@
             },
             async extract () {
                 console.log('Extracting');
+                this.extracting = true;
                 this.showDialog = false;
                 for (let i = 0; i < Object.keys(this.jsZipInstance.files).length; i++) {
                     let filename = Object.keys(this.jsZipInstance.files)[i];
@@ -146,10 +154,11 @@
                     if (filename !== 'files/' && filename !== 'info.xml') {
                         let content = await this.jsZipInstance.files[filename].async('nodebuffer');
                         let f       = path.relative('files', filename);
-                        let dest    = path.join(this.c2addonsPath, 'plugins', f);
 
-                        console.log(`Creating ${path.join(dest, "..")}`);
-                        mkdirp.sync(path.join(dest, ".."), {});
+                        let dest = path.join(this.c2addonsPath, 'plugins', f);
+
+                        console.log(`Creating ${path.join(dest, '..')}`);
+                        mkdirp.sync(path.join(dest, '..'), {});
 
                         if (path.extname(dest) === '') {
                             console.log(`Creating ${dest}`);
@@ -161,7 +170,8 @@
                         }
                     }
                 }
-                this.installed = true;
+                this.installed  = true;
+                this.extracting = false;
 
                 fs.unlinkSync(this.tmpFilePath);
 
@@ -171,6 +181,7 @@
                 /**
                  * Download
                  */
+                this.extracting = true;
                 this.tmpFilePath = path.join(os.tmpdir(), `${uuid()}.zip`);
                 console.log('tmpFilePath', this.tmpFilePath);
 
@@ -191,8 +202,11 @@
                     console.log('File downloaded!');
                     this.downloaded = true;
                     // Do something after request finishes
-                }).pipe(fs.createWriteStream(this.tmpFilePath).on('close', (file) => {
-                    this.check();
+                }).pipe(fs.createWriteStream(this.tmpFilePath).on('close', async (file) => {
+                    let addonInfos = await c2Utilities.getAddonInfos(this.tmpFilePath);
+                    console.log('AddonInfos', addonInfos);
+
+                    //this.check();
                 }));
             }
         },

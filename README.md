@@ -1,6 +1,10 @@
-# Addon Installer
+<div style="text-align:center">
+    <img src="https://github.com/armaldio/AddonInstaller/raw/dev/store/Addoninstaller%20Icon%20(96).png" />
+</div>
+<h1 align="center" style="border-bottom: none;">📦🚀 Addon Installer</h1>
+<h3 align="center">Install and manage your installed C2 addons</p>
 
-> Install and manage your installed C2 addons
+<hr>
 
  <details>
   <summary>Tags and stats</summary>
@@ -30,13 +34,14 @@
 Discord: ![Discord](https://img.shields.io/discord/116497549237551109.svg)
 </details>
 
-<br>
+<hr>
 
 ### Compatibility
 | Browser | Compatibility | Link |
 | :-----: | :-----------: | :--: |
 | Mozilla | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | [Store](https://addons.mozilla.org/fr/firefox/addon/construct-addon-installer/) |
-| Chrome  | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | Not yet available |
+| Chrome  | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | [Store](https://chrome.google.com/webstore/detail/addon-installer/lfhphgaiacpikafeajdlokjafeokddcd) |
+| Opera   | ![Compatible](https://img.shields.io/badge/compatible-yes-green.svg) | Pending review |
 
 | OS | Compatibility |
 | :-------: | :-------: |
