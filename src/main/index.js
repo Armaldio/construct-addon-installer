@@ -1,5 +1,8 @@
 import {app, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import isDev from 'electron-is-dev';
+
+// Consider to improve again https://github.com/wix/fast-boot
+
 /*import Store from 'electron-store';*/
 /*import pkg from '../../package';*/
 
