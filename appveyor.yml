@@ -2,10 +2,6 @@ version: 0.1.{build}
 
 stack: node 9
 
-environment:
-  matrix:
-    - nodejs_version: '9'
-
 #branches:
 #  only:
 #    - master
@@ -29,6 +25,7 @@ init:
   - node --version
 
 install:
+  - ps: Install-Product node 9 x64
   - git reset --hard HEAD
   - yarn
 
