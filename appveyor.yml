@@ -3,7 +3,7 @@ version: 0.1.{build}
 stack: node 9
 
 environment:
-    - nodejs_version: '9'
+  - nodejs_version: '9'
 
 #branches:
 #  only:
