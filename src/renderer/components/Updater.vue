@@ -1,16 +1,14 @@
 <template>
     <div class="main">
-        <p class="center" v-show="!updateDownloaded">Update in progress...</p>
+        <v-btn large @click="autoUpdater.quitAndInstall(false, true)" v-show="updateDownloaded">
+            <v-icon left dark>fas fa-download</v-icon>
+            {{ $t('options.updateReady') }}
+        </v-btn>
 
-        <div class="btns">
-            <v-btn @click="$electron.ipcRenderer.send('install')" v-show="updateDownloaded" class="center">
-                <v-icon left dark>fas fa-download</v-icon>
-                {{ $t('options.updateReady') }}
-            </v-btn>
-
-            <v-progress-linear v-show="!updateDownloaded" class="bottom"
-                               :value="downloadPercent" height="5" color="success"></v-progress-linear>
-        </div>
+        <v-progress-circular v-show="!updateDownloaded" :size="150" :width="20" :rotate="360"
+                             :value="downloadPercent" color="success">
+            {{ Math.round(downloadPercent) }}%
+        </v-progress-circular>
     </div>
 </template>
 
@@ -27,7 +25,8 @@
         data () {
             return {
                 downloadPercent : 0,
-                updateDownloaded: false
+                updateDownloaded: false,
+                autoUpdater     : {}
             };
         },
         methods: {
@@ -36,28 +35,18 @@
             }
         },
         async mounted () {
-            this.$electron.ipcRenderer.send('page-ready');
-            console.log('Sent page ready');
+            this.autoUpdater = this.$electron.remote.getGlobal('autoUpdater');
+            this.autoUpdater.checkForUpdates();
 
-            this.$electron.ipcRenderer.on('update', (event, arg) => {
-                console.log(arg);
-                switch (arg) {
-                    case 'update-downloaded':
-                        this.updateDownloaded = true;
-                        break;
-                    case 'update-available':
-                        this.$electron.ipcRenderer.send('download');
-                        break;
-                    case 'update-not-available':
-                    case 'error':
-                        this.text = 'No updates available...';
-                        break;
-                }
+            this.autoUpdater.on('update-available', (currentUpdate) => {
+                this.updateAvailable = true;
+                this.autoUpdater.downloadUpdate();
             });
-
-            this.$electron.ipcRenderer.on('progress', (event, arg) => {
-                //console.log(arg);
-                this.downloadPercent = arg.percent;
+            this.autoUpdater.on('update-downloaded', (file) => {
+                this.updateDownloaded = true;
+            });
+            this.autoUpdater.on('download-progress', (progress) => {
+                this.downloadPercent = progress.percent;
                 this.$electron.remote.getCurrentWindow().setProgressBar(this.downloadPercent / 100);
             });
         }
@@ -65,33 +54,12 @@
 </script>
 
 <style scoped>
-    .update {
-        position: absolute;
-        bottom: 3px;
-        right: 0;
-    }
-
-    .bottom {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-
-    .btns {
-        position: absolute;
-        left: 0;
-        right: 0;
-        text-align: center;
-    }
 
     i {
         padding: 15px !important;
     }
 
-    .center {
+    .main {
         text-align: center;
         margin-top: 50vh;
         transform: translateY(-50%);

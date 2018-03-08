@@ -19,30 +19,18 @@
                 <v-icon left dark>fab fa-opera</v-icon>
                 Opera
             </v-btn>
+            <v-btn @click="open('https://github.com/armaldio/AddonInstaller')">
+                <v-icon left dark>fab fa-github</v-icon>
+                View the project on Github
+            </v-btn>
         </div>
 
-        <v-btn v-show="updateAvailable" @click="InstallUpdate" class="update">
-            <v-icon left dark>fas fa-download</v-icon>
-            Update available. Click here to update
-        </v-btn>
-
-        <v-btn v-show="checkingForUpdates && downloadPercent !== 100" class="update">
-            <v-icon left dark>fas fa-sync-alt fa-spin</v-icon>
-            {{ $t('options.checkingForUpdates') }}...
-        </v-btn>
-
-        <v-btn v-show="updateReady && downloadPercent !== 100" class="update">
-            <v-icon left dark>fas fa-download</v-icon>
-            {{ $t('options.updating') }}...
-        </v-btn>
-
-        <v-btn @click="$electron.ipcRenderer.send('download')" v-show="downloadPercent === 100" class="update">
-            <v-icon left dark>fas fa-download</v-icon>
-            {{ $t('options.updateReady') }}
-        </v-btn>
-
-        <v-progress-linear v-if="downloadPercent !== 100 && downloadPercent !== 0" class="bottom"
-                           :value="downloadPercent" height="2" color="success"></v-progress-linear>
+        <v-snackbar absolute top color="info" multi-line :timeout="600000" v-model="updateAvailable">
+            <v-icon left dark class="mr-2">fas fa-download</v-icon>
+            <span> {{ $t('update.newUpdateAvailable') }}</span>
+            <v-btn dark flat large @click.once="InstallUpdate">{{ $t('update.installNow') }}</v-btn>
+            <v-btn dark flat large @click.once="updateAvailable = false">{{ $t('common.close') }}</v-btn>
+        </v-snackbar>
     </div>
 </template>
 
@@ -68,53 +56,16 @@
                 opn(url);
             },
             InstallUpdate () {
-                let args = process.argv.slice(1).concat(['--update']);
-                console.log(args);
-                this.$electron.remote.app.relaunch({args: args});
-                this.$electron.remote.app.exit(0);
+                this.$electron.ipcRenderer.removeAllListeners('update');
+                this.$router.push('/updater');
             }
         },
         async mounted () {
-            /*this.$electron.ipcRenderer.on('update', (event, arg) => {
-                console.log(arg);
-                switch (arg) {
-                    case 'update-available':
-                        this.updateAvailable = true;
-                        break;
-                }
+            let autoUpdater = this.$electron.remote.getGlobal('autoUpdater');
+            autoUpdater.checkForUpdates();
+            autoUpdater.on('update-available', (currentUpdate) => {
+                this.updateAvailable = true;
             });
-            this.$electron.ipcRenderer.send('page-ready');
-            console.log('Sent page ready');*/
-
-            /*this.$electron.ipcRenderer.on('update', (event, arg) => {
-                console.log(arg);
-                switch (arg) {
-                    case 'update-downloaded':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = true;
-                        this.progress = 100;
-                        break;
-                    case 'update-available':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = true;
-                        break;
-                    case 'checking-for-update':
-                        this.checkingForUpdates = true;
-                        this.updateReady        = false;
-                        break;
-                    case 'update-not-available':
-                    case 'error':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = false;
-                        break;
-                }
-            });
-
-            this.$electron.ipcRenderer.on('progress', (event, arg) => {
-                //console.log(arg);
-                this.downloadPercent = arg.percent;
-                this.$electron.remote.getCurrentWindow().setProgressBar(this.downloadPercent / 100);
-            });*/
         }
     };
 </script>

@@ -1,5 +1,6 @@
 import {app, BrowserWindow, ipcMain, globalShortcut} from 'electron';
 import isDev from 'electron-is-dev';
+import {autoUpdater} from 'electron-updater';
 
 // Consider to improve again https://github.com/wix/fast-boot
 
@@ -67,11 +68,6 @@ function createWindow () {
             let succesSet = app.setAsDefaultProtocolClient('addoninstaller');
             if (succesSet) {
                 console.log('App registered successfully for addoninstaller:// protocol');
-                /*notifier.notify({
-                    title  : 'C2 Addon Installer',
-                    message: 'The app has be defined to handle plugin links in the browser successfully!',
-                    icon   : __dirname + '/256x256.png',
-                });*/
             }
         }
 
@@ -108,53 +104,15 @@ app.on('activate', () => {
 
 async function checkForUpdates () {
 
-    let pkg         = await import('../../package');
-    let autoUpdater = await import ('electron-updater');
+    let pkg                  = await import('../../package');
 
-    autoUpdater.autoUpdater.autoDownload = false;
+    global.autoUpdater = autoUpdater;
+
+    global.autoUpdater.autoDownload = false;
 
     if (isDev) {
-        autoUpdater.updateConfigPath = __dirname + '/dev-app-update.yml';
+        global.autoUpdater.updateConfigPath = __dirname + '/dev-app-update.yml';
         //noinspection JSUnresolvedVariable
-        autoUpdater.currentVersion   = pkg.version;
+        global.autoUpdater.currentVersion   = pkg.version;
     }
-
-    ipcMain.on('page-ready', (event, arg) => {
-        autoUpdater.checkForUpdates();
-
-        ipcMain.on('download', (event, arg) => {
-            autoUpdater.downloadUpdate();
-        });
-
-        ipcMain.on('install', (event, arg) => {
-            if (!isDev)
-                autoUpdater.quitAndInstall(false, true);
-            else
-                console.log('Cannot update as dev');
-        });
-
-        autoUpdater.on('update-downloaded', (file) => {
-            event.sender.send('update', 'update-downloaded');
-        });
-
-        autoUpdater.on('update-available', (currentUpdate) => {
-            event.sender.send('update', 'update-available');
-        });
-
-        autoUpdater.on('download-progress', (progress) => {
-            event.sender.send('progress', progress);
-        });
-
-        autoUpdater.on('checking-for-update', () => {
-            event.sender.send('update', 'checking-for-update');
-        });
-
-        autoUpdater.on('update-not-available', () => {
-            event.sender.send('update', 'update-not-available');
-        });
-
-        autoUpdater.on('error', () => {
-            event.sender.send('update', 'error');
-        });
-    });
 }

@@ -17,8 +17,13 @@
     "updateReady": "Update ready",
     "checkingForUpdates": "Checking for updates"
   },
+  "update": {
+    "newUpdateAvailable": "A new update of the app is available",
+    "installNow": "Install now"
+  },
   "common": {
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "close": "Close"
   }
 }

@@ -50,6 +50,13 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <v-snackbar absolute top color="info" multi-line :timeout="600000" v-model="updateAvailable">
+            <v-icon left dark class="mr-2">fas fa-download</v-icon>
+            <span> {{ $t('update.newUpdateAvailable') }}</span>
+            <v-btn dark flat large @click.once="InstallUpdate">{{ $t('update.installNow') }}</v-btn>
+            <v-btn dark flat large @click.once="updateAvailable = false">{{ $t('common.close') }}</v-btn>
+        </v-snackbar>
     </div>
 </template>
 
@@ -104,11 +111,19 @@
 
                 endpoint      : 'https://www.construct.net',
                 addonsEndpoint: 'construct-2/addons',
+
+                updateAvailable: false
             };
         },
         methods   : {
             open (url) {
                 opn(url);
+            },
+            InstallUpdate () {
+                /*this.$electron.remote.app.relaunch({args: process.argv.slice(1).concat(['--update'])});
+                this.$electron.remote.app.exit(0);*/
+                this.$electron.ipcRenderer.removeAllListeners('update');
+                this.$router.push('/updater');
             },
             check () {
                 new JSZip.external.Promise((resolve, reject) => {
@@ -211,6 +226,29 @@
             }
         },
         async mounted () {
+            /**
+             * Update
+             */
+            /*this.$electron.ipcRenderer.on('update', (event, arg) => {
+                console.log('update');
+                console.log(arg);
+                switch (arg) {
+                    case 'update-available':
+                        this.updateAvailable = true;
+                        break;
+                }
+            });
+            this.$electron.ipcRenderer.send('page-ready');
+            console.log('Sent page ready');*/
+            let autoUpdater = this.$electron.remote.getGlobal('autoUpdater');
+            autoUpdater.checkForUpdates();
+            autoUpdater.on('update-available', (currentUpdate) => {
+                this.updateAvailable = true;
+            });
+
+            /**
+             * Mount
+             */
             this.args = this.$electron.remote.getGlobal('args');
             console.log('CLI args: ', this.args);
             for (let i = 0; i < this.args.length; i++) {
