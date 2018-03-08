@@ -120,8 +120,6 @@
                 opn(url);
             },
             InstallUpdate () {
-                /*this.$electron.remote.app.relaunch({args: process.argv.slice(1).concat(['--update'])});
-                this.$electron.remote.app.exit(0);*/
                 this.$electron.ipcRenderer.removeAllListeners('update');
                 this.$router.push('/updater');
             },
@@ -226,20 +224,6 @@
             }
         },
         async mounted () {
-            /**
-             * Update
-             */
-            /*this.$electron.ipcRenderer.on('update', (event, arg) => {
-                console.log('update');
-                console.log(arg);
-                switch (arg) {
-                    case 'update-available':
-                        this.updateAvailable = true;
-                        break;
-                }
-            });
-            this.$electron.ipcRenderer.send('page-ready');
-            console.log('Sent page ready');*/
             let autoUpdater = this.$electron.remote.getGlobal('autoUpdater');
             autoUpdater.checkForUpdates();
             autoUpdater.on('update-available', (currentUpdate) => {
