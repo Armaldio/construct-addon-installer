@@ -1,3 +1,118 @@
+[Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 02:00:04 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/82b6d50b5c945108b1b1a0ae7e50d2c5aefdba9d)
+<br>
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) lang.fr_FR.json (POEditor.com)
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 01:59:09 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/1fcd9d21cb91dc72847f7680c4631d5550e2d50e)
+<br>
+- fix: updated translations
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 01:57:27 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/237bf85d091dc75decef79a112f7f9a3198c2ee9)
+<br>
+- Merge remote-tracking branch 'origin/develop' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 01:57:20 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/b33ff87bd852452fa13d3678ffa45254cb8016a3)
+<br>
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) lang.fr_FR.json (POEditor.com)
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 01:56:01 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/25ce7bb04d3dcc024c559247e284fb39f412e7be)
+<br>
+- Merge remote-tracking branch 'origin/develop' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 01:55:52 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/3753725ad5e144785671418acd5cb45a00e8af22)
+<br>
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) lang.fr_FR.json (POEditor.com)
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 01:55:28 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/a11cbf74db91c80f299dd84ab5a7076e6010cc0d)
+<br>
+- fix: minor cleanup
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 01:51:52 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/76f3bde49ae184a1e8541abd7be93d316beea743)
+<br>
+- feat: big improvements to autoUpdate
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 01:49:53 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/4ed0c79a197045ec9fd073d85915eca7b495e2ed)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) centered image in readme
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 21:54:59 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/2a16191a5e59ccc37af6a4cfadffe9e9dc7ce763)
+<br>
+- bump electron version to 1.8.3, improved speed
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 21:13:52 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/12baca29243b8bf965ebdf12644a3592d996f7f2)
+<br>
+- improve starting time again
+- grey out éresize" titlebar button
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 20:51:36 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/6f4c664acd71a1018e64b04ffe1d3700caea3ffb)
+<br>
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) optimized loading times
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) custom update window
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 17:18:10 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/4625feddb75e55344b00d58a32b545adedac6219)
+<br>
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) log messages
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) unit tests
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) .c2addon xml parser
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 14:19:42 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/f417bcfb973033828390ee36773424694ee2674a)
+<br>
+- Merge branch 'dev' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 14:07:50 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/4c825d8a8f00513729bfdcc1d95a345bf9797b23)
+<br>
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) unit tests
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 09:29:36 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/dab0b0eca3a80b5de6b1b69eb4e265d2e772093d)
+<br>
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) readme
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) .c2addon xml parser
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) spinner while installing
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-07 00:57:26 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/8b93aa88693bcea04808d24464a44a9789bab480)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) icons for taskbar and notifications
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) readme
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-06 18:25:55 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/44e039d59d251352d5f8a7f819c657c32173cee0)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) changelog
+
+<hr>
+
 [Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-06 17:26:51 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/1811f16aa249128fd3c525f87173c76d23b916d4)
 <br>
 - ![Shield](https://img.shields.io/badge/status-add-green.svg) changelog
@@ -32,6 +147,12 @@
 <br>
 - ![Shield](https://img.shields.io/badge/status-add-green.svg) progressbar on taskbar icon
 - ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) for update buttons
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-05 02:10:52 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/0c094b5d46bd52505d65ce4ca2e183773f312d33)
+<br>
+- Merge branch 'dev'
 
 <hr>
 
@@ -78,6 +199,12 @@
 [Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-02 14:49:14 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/f5f444f0c333812567fb6baf7dfb65d5011d482f)
 <br>
 - ![Shield](https://img.shields.io/badge/status-update-blue.svg) readme
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-02 13:53:52 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/b8e304219f9e60ea363ad92483c36f0382855f0a)
+<br>
+- Merge branch 'dev'
 
 <hr>
 
