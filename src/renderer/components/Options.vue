@@ -3,7 +3,7 @@
         <p class="center">{{ $t('options.noOptionsAvailable') }}</p>
 
         <div class="btns">
-            <v-btn @click="open('https://go.armaldio.xyz/AddonInstallerChromeExtension')">
+            <v-btn @click="open('https://chrome.google.com/webstore/detail/lfhphgaiacpikafeajdlokjafeokddcd/')">
                 <v-icon left dark>fab fa-chrome</v-icon>
                 Chrome
             </v-btn>
@@ -19,24 +19,18 @@
                 <v-icon left dark>fab fa-opera</v-icon>
                 Opera
             </v-btn>
+            <v-btn @click="open('https://github.com/armaldio/AddonInstaller')">
+                <v-icon left dark>fab fa-github</v-icon>
+                {{ $t('options.viewProjectOnGithub') }}
+            </v-btn>
         </div>
 
-        <v-btn v-if="checkingForUpdates" class="update" flat>
-            <v-icon left dark>fas fa-sync-alt fa-spin</v-icon>
-        </v-btn>
-
-        <v-btn v-if="updateReady" class="update">
-            <v-icon left dark>fas fa-download</v-icon>
-            {{ $t('options.updating') }}...
-        </v-btn>
-
-        <v-btn @click="$electron.ipcRenderer.send('download')" v-if="downloadPercent === 100" class="update">
-            <v-icon left dark>fas fa-download</v-icon>
-            $t("options.updateReady")
-        </v-btn>
-
-        <v-progress-linear v-if="downloadPercent !== 100 && downloadPercent !== 0" class="bottom"
-                           :value="downloadPercent" height="2" color="success"></v-progress-linear>
+        <v-snackbar absolute top color="info" multi-line :timeout="600000" v-model="updateAvailable">
+            <v-icon left dark class="mr-2">fas fa-download</v-icon>
+            <span> {{ $t('update.newUpdateAvailable') }}</span>
+            <v-btn dark flat large @click.once="InstallUpdate">{{ $t('update.installNow') }}</v-btn>
+            <v-btn dark flat large @click.once="updateAvailable = false">{{ $t('common.close') }}</v-btn>
+        </v-snackbar>
     </div>
 </template>
 
@@ -48,49 +42,29 @@
          .install();
 
     export default {
-        name   : 'installer',
+        name   : 'options',
         data () {
             return {
                 checkingForUpdates: false,
                 updateReady       : false,
-                downloadPercent   : 0
+                downloadPercent   : 0,
+                updateAvailable   : false
             };
         },
         methods: {
             open (url) {
                 opn(url);
+            },
+            InstallUpdate () {
+                this.$electron.ipcRenderer.removeAllListeners('update');
+                this.$router.push('/updater');
             }
         },
         async mounted () {
-            this.$electron.ipcRenderer.send('page-ready');
-            console.log('Sent page ready');
-
-            this.$electron.ipcRenderer.on('update', (event, arg) => {
-                console.log(arg);
-                switch (arg) {
-                    case 'update-downloaded':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = true;
-                        break;
-                    case 'update-available':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = true;
-                        break;
-                    case 'checking-for-update':
-                        this.checkingForUpdates = true;
-                        this.updateReady        = false;
-                        break;
-                    case 'update-not-available':
-                    case 'error':
-                        this.checkingForUpdates = false;
-                        this.updateReady        = false;
-                        break;
-                }
-            });
-
-            this.$electron.ipcRenderer.on('progress', (event, arg) => {
-                //console.log(arg);
-                this.downloadPercent = arg.percent;
+            let autoUpdater = this.$electron.remote.getGlobal('autoUpdater');
+            autoUpdater.checkForUpdates();
+            autoUpdater.on('update-available', (currentUpdate) => {
+                this.updateAvailable = true;
             });
         }
     };

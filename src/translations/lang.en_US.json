@@ -14,10 +14,17 @@
   "options": {
     "noOptionsAvailable": "There are currently no options available...",
     "updating": "Updating",
-    "updateReady": "Update ready"
+    "updateReady": "Update ready",
+    "checkingForUpdates": "Checking for updates",
+    "viewProjectOnGithub": "View the project on Github"
+  },
+  "update": {
+    "newUpdateAvailable": "A new update of the app is available",
+    "installNow": "Install now"
   },
   "common": {
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "close": "Close"
   }
 }
