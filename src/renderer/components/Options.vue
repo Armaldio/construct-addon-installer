@@ -21,7 +21,7 @@
             </v-btn>
             <v-btn @click="open('https://github.com/armaldio/AddonInstaller')">
                 <v-icon left dark>fab fa-github</v-icon>
-                View the project on Github
+                {{ $t('options.viewProjectOnGithub') }}
             </v-btn>
         </div>
 
