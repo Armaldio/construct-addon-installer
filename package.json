@@ -23,7 +23,9 @@
     "webext:opera": "shipit opera BrowserExtension",
     "changelog": "node scripts/changelog-generator.js",
     "test": "npm run unit",
-    "unit": "karma start test/unit/karma.conf.js"
+    "unit": "karma start test/unit/karma.conf.js",
+    "butler": "npm-run-all butler:*",
+    "butler:pushWindows": "node scripts/butler-upload.js"
   },
   "build": {
     "productName": "C2 Addon Installer",
