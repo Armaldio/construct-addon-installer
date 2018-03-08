@@ -20,7 +20,8 @@
         "noOptionsAvailable": "Il n'y a actuellement aucunes options disponibles",
         "updating": "Mise à jour",
         "updateReady": "Mise à jour prête",
-        "checkingForUpdates": "Vérification des mises à jour"
+        "checkingForUpdates": "Vérification des mises à jour",
+        "viewProjectOnGithub": "Voir le projet sur Github"
     },
     "update": {
         "newUpdateAvailable": "Une nouvelle version de l'application est disponible",
