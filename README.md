@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/armaldio/AddonInstaller/raw/dev/store/Addoninstaller%20Icon%20(96).png" />
+    <img src="https://github.com/armaldio/AddonInstaller/raw/develop/store/Addoninstaller%20Icon%20(96).png" />
 </p>
 <h1 align="center" style="border-bottom: none;">📦🚀 Addon Installer</h1>
 <h3 align="center">Install and manage your installed C2 addons</p>
