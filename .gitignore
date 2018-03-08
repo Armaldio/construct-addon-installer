@@ -16,3 +16,4 @@ BetaTesters.md
 /BrowserExtension/.web-extension-id
 /test/random/
 /test/unit/coverage/
+!/ext-bin/**
