@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Addon Installer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Armaldio",
   "description": "Install C2 plugins directly to your computer from the addon list",
   "icons": {
