@@ -5,7 +5,7 @@
   "author": "Armaldio",
   "description": "Install C2 plugins directly to your computer from the addon list",
   "icons": {
-    "48": "icons/border-48.png"
+    "128": "icons/border-128.png"
   },
   "permissions": [
     "activeTab"

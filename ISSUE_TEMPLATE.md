@@ -7,7 +7,12 @@ This is a:
 
 Steps to reproduce:
   1. ...
-  2. ...
+
+What is happening ?
+> Put what is happenig here
+
+What is expected ?
+> Put what is expected here
   
 ### Description
 
