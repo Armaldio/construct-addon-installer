@@ -27,6 +27,7 @@ install:
 
 build_script:
   - yarn build
+  - yarn test
   - yarn run butler
 
 test: off
