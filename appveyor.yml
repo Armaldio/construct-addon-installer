@@ -26,8 +26,8 @@ install:
   - node --version
 
 build_script:
-  - yarn build
   - yarn test
+  - yarn build
   - yarn run butler
 
 test: off
