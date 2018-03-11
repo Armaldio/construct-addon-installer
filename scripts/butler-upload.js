@@ -12,6 +12,14 @@ async function windowsUpload () {
     console.log('stderr:', stderr);
 }
 
+let branch       = process.env.APPVEYOR_REPO_BRANCH;
+let buildNumber  = process.env.APPVEYOR_BUILD_NUMBER;
+let buildVersion = process.env.APPVEYOR_BUILD_VERSION;
+
+console.log("branch: " + branch);
+console.log("buildNumber: " + buildNumber);
+console.log("buildVersion: " + buildVersion);
+
 windowsUpload().then().catch(err => {
     console.log(err);
 });
