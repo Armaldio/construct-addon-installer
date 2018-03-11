@@ -1,3 +1,160 @@
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:48:02 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/a455abac49bbcc66064e379e745764ed4c5d9d1d)
+<br>
+- Merge branch 'release/0.1.0'
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:42:42 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/c4adf46f82a16a0d3ab614648492a0b6d4b9b3c9)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) for running builds before building
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:42:27 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/39c3ce999d8687682e521e46d509790abaf4edc4)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) for butler not finding executable path
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) for running builds before building
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:37:34 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/c57f45b29a165960911dc2cddb231dc88757d438)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) butler channel name
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) running unit tests
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:31:45 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/471a8bd86b9b9e4387351850791bf444663beed8)
+<br>
+- Merge branch 'feature/itchdeploy' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:31:37 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/3d278617e24c2a5aa46405d0266d6967b2b65bf1)
+<br>
+- deploy on master push release build
+- deploy on develop push nightly build
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:18:18 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/be4e7b074f34cb73851a239259cbd5bc76b1097a)
+<br>
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) variables
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:13:24 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/29f9d46eaab900b4e1bb8a40914f7e75514735dc)
+<br>
+- Merge branch 'feature/predownloadaddon' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-11 13:13:12 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/6d37bb76e1b29647f5fc22493d4156c3699013de)
+<br>
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) detail window
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) version diff when version already exists
+- ![Shield](https://img.shields.io/badge/status-add-green.svg) support for behaviors
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-09 13:32:14 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/2382eedcacfe4fe59b351d0e43347640ba2e0a3e)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) #4
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-09 12:44:53 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/47bac97c60fbc58532ccf5ed193f682d5a9df90a)
+<br>
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) icons
+- ![Shield](https://img.shields.io/badge/status-update-blue.svg) issue template
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-09 12:44:02 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/9cd251d5375f9e8e8f1c5796ab90e210e6d61708)
+<br>
+- fix: #4
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 15:57:30 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/17d5846ecbad21777d324da188fd89ae69d2df92)
+<br>
+- Merge branch 'feature/butlerUpload' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 15:42:47 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/41abc473f4678f30b3e9748bd3aedec1c87e01b1)
+<br>
+- fix: catch promise reject error message
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 15:36:45 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/ec6e797670549f889611a7fa115c340ad725191a)
+<br>
+- fix: add executable
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 15:20:40 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/4259cbd872aa294da450b0a786143b8269e6834e)
+<br>
+- Merge branch 'master' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 15:20:03 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/cf57a09965d44e502f2cfd147dd5b291ee4f68dd)
+<br>
+- Merge branch 'feature/itchbutlerpush' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 15:19:40 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/8c90fe8bfdedcb8ba85536b961b1ec5d49ea9d36)
+<br>
+- feat: Publish release to itch.io after build on CI
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 12:43:13 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/242f4e29eba80150d4bc5bc31ba3f465b2962242)
+<br>
+- Merge pull request #3 from armaldio/add-code-of-conduct-1
+- Create CODE_OF_CONDUCT.md
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 12:42:48 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/6bd8728442732d074097789eecfdb45f20f0e7e0)
+<br>
+- Create CODE_OF_CONDUCT.md
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 12:39:34 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/a781bf0d1ad1e4f048c14747bba35cbdc8b988fe)
+<br>
+- Create ISSUE_TEMPLATE.md
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 02:15:47 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/e5b30be0bc73b3579226e5d6a4a64fc4b63ed3df)
+<br>
+- Merge branch 'master' into develop
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 02:13:22 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/edc2cc1cbeabeee67891e289f0748f6646dd7bb6)
+<br>
+- ![Shield](https://img.shields.io/badge/status-fix-yellow.svg) icon
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 02:05:42 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/68a3dc0ca27960351877e22ab7b6be228f807858)
+<br>
+- Merge branch 'develop'
+
+<hr>
+
+[Quentin Goinaud](mailto:armaldio@gmail.com) - 2018-03-08 02:05:28 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/34e387fbc9461ec054b7bcf67a9109d3079e4b6c)
+<br>
+- bump version and update changelog
+
+<hr>
+
 [Quentin Goinaud](mailto:armaldio@users.noreply.github.com) - 2018-03-08 02:00:04 +0100 - [Commit](https://github.com/armaldio/AddonInstaller/commit/82b6d50b5c945108b1b1a0ae7e50d2c5aefdba9d)
 <br>
 - ![Shield](https://img.shields.io/badge/status-update-blue.svg) lang.fr_FR.json (POEditor.com)
