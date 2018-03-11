@@ -1,47 +1,56 @@
 <template>
     <div>
         <transition name="fade" mode="out-in">
-            <div v-if="name !== ''" class="plugin">
-                <div class="main container">
-                    <img height="64" :src="icon" alt="icon">
-                    <h1>
-                        <i18n path="installer.mainQuestion" tag="b" for="tos">
-                            <a target="_blank" @click="open(pluginUrl)">{{ name }}</a>
-                        </i18n>
-                    </h1>
+            <div v-if="addon !== null || notSupportedEffect" class="plugin">
+                <div v-if="notSupportedEffect">
+                    <h1 class="notSupported">Effects are currently not supported!</h1>
+                </div>
+                <div v-else>
 
-                    <p>{{description}}</p>
+                    <div class="main container">
+                        <img height="64" :src="icon" alt="icon">
+                        <h1>
+                            <i18n path="installer.mainQuestion" tag="b" for="tos">
+                                <a target="_blank" @click="details = true">{{ addon.name }}</a>
+                            </i18n>
+                        </h1>
 
-                    <div class="okInstall" v-if="cleaned">
-                        <v-icon color="green" x-large left>fas fa-check</v-icon>
-                        {{ $t('installer.installedButton') }}
+                        <p>{{addon.description}}</p>
+
+                        <div class="okInstall" v-if="cleaned">
+                            <v-icon color="green" x-large left>fas fa-check</v-icon>
+                            {{ $t('installer.installedButton') }}
+                        </div>
+                    </div>
+
+                    <div v-show="!cleaned && !extracting" class="buttons-bottom">
+                        <v-btn color="green" @click="install">{{ $t('common.yes') }}</v-btn>
+                        <v-btn color="red" @click="$electron.remote.app.quit()">{{ $t('common.no') }}</v-btn>
+                    </div>
+                    <div v-show="extracting" class="buttons-bottom">
+                        <v-btn>
+                            <v-icon dark>fas fa-sync-alt fa-spin</v-icon>
+                        </v-btn>
+                    </div>
+                    <div v-show="cleaned" class="buttons-bottom">
+                        <v-btn @click="$electron.remote.app.quit()">Close</v-btn>
                     </div>
                 </div>
 
-                <div v-show="!cleaned && !extracting" class="buttons-bottom">
-                    <v-btn @click="downloadAndInstall">{{ $t('common.yes') }}</v-btn>
-                    <v-btn @click="$electron.remote.app.quit()">{{ $t('common.no') }}</v-btn>
-                </div>
-                <div v-show="extracting" class="buttons-bottom">
-                    <v-btn>
-                        <v-icon dark>fas fa-sync-alt fa-spin</v-icon>
-                    </v-btn>
-                </div>
-                <div v-show="cleaned" class="buttons-bottom">
-                    <v-btn @click="$electron.remote.app.quit()">Close</v-btn>
-                </div>
             </div>
 
             <loader v-else transition="fade" transition-mode="out-in"></loader>
 
         </transition>
 
-        <!-- Modal -->
+        <!-- Addon replace -->
         <v-dialog v-model="showDialog" persistent max-width="600">
             <v-card>
                 <v-card-title class="headline">{{ $t('installer.modal.askOverwrite') }}</v-card-title>
                 <v-card-text>
-                    {{ $t('installer.modal.alreadyInstalledAddonDescription') }}
+                    <i18n path="installer.modal.alreadyInstalledAddonDescription" tag="div">
+                        <b><u>({{ oldVersion }} → {{ newVersion }})</u></b>
+                    </i18n>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -51,12 +60,41 @@
             </v-card>
         </v-dialog>
 
+        <!-- Addon Details -->
+        <v-dialog v-model="details" fullscreen transition="dialog-bottom-transition" :overlay="true" scrollable>
+            <v-card tile>
+                <v-toolbar card dark color="primary">
+                    <img height="32" :src="icon" alt="icon">
+                    <v-toolbar-title v-if="addon">{{ addon.name }}</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click.native="details = false" dark>
+                        <v-icon>close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <v-card-text>
+                    <v-data-table :items="addonToList" class="elevation-1" hide-actions hide-headers>
+                        <template slot="items" slot-scope="props">
+                            <td>{{ props.item.name | capitalize }}</td>
+                            <td class="text-xs-right">{{ props.item.description }}</td>
+                        </template>
+                    </v-data-table>
+                </v-card-text>
+
+                <div style="flex: 1 1 auto;"/>
+            </v-card>
+        </v-dialog>
+
+        <!-- Snackbar update notifier -->
         <v-snackbar absolute top color="info" multi-line :timeout="600000" v-model="updateAvailable">
             <v-icon left dark class="mr-2">fas fa-download</v-icon>
             <span> {{ $t('update.newUpdateAvailable') }}</span>
             <v-btn dark flat large @click.once="InstallUpdate">{{ $t('update.installNow') }}</v-btn>
             <v-btn dark flat large @click.once="updateAvailable = false">{{ $t('common.close') }}</v-btn>
         </v-snackbar>
+
+        <span class="version">v{{ version }}</span>
+        <span class="donate"><a @click="open('https://paypal.me/armaldio')"><img
+                src="https://yourdonation.rocks/images/badge.svg"/></a></span>
     </div>
 </template>
 
@@ -75,14 +113,46 @@
     import opn from 'opn';
     import Raven from 'raven';
     import c2Utilities from './scripts/c2Utilities';
+    import pkg from '../../../package';
+    import ap from 'c2-addon-parser';
 
     Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440')
          .install();
+    Raven.setContext({
+        version: pkg.version
+    });
 
     export default {
         name      : 'installer',
         components: {
             loader
+        },
+        filters   : {
+            capitalize: function (value) {
+                if (!value) return '';
+                value = value.toString();
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            }
+        },
+        computed  : {
+            addonToList () {
+                if (this.addon === null)
+                    return [];
+                let list = [];
+                for (let i = 0; i < Object.keys(this.addon).length; i++) {
+                    let key = Object.keys(this.addon)[i];
+
+                    list.push({
+                        name       : key,
+                        description: this.addon[key],
+                    });
+                }
+                list.push({
+                    name       : 'Scirra page',
+                    description: this.pluginUrl,
+                });
+                return list;
+            }
         },
         data () {
             return {
@@ -112,7 +182,16 @@
                 endpoint      : 'https://www.construct.net',
                 addonsEndpoint: 'construct-2/addons',
 
-                updateAvailable: false
+                updateAvailable: false,
+                version        : pkg.version,
+
+                addon  : null,
+                details: false,
+
+                oldVersion: 0,
+                newVersion: 0,
+
+                notSupportedEffect: false
             };
         },
         methods   : {
@@ -123,39 +202,62 @@
                 this.$electron.ipcRenderer.removeAllListeners('update');
                 this.$router.push('/updater');
             },
-            check () {
-                new JSZip.external.Promise((resolve, reject) => {
-                    fs.readFile(this.tmpFilePath, (err, data) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(data);
-                        }
-                    });
-                }).then((data) => {
-                    return JSZip.loadAsync(data);
-                }).then((jszip) => {
-                    this.jsZipInstance = jszip;
-
-                    let exist = false;
-                    Object.keys(this.jsZipInstance.files).forEach(async (filename) => {
-                        if (filename !== 'files/' && filename !== 'info.xml') {
-                            let f    = path.relative('files', filename);
-                            let dest = path.join(this.c2addonsPath, 'plugins', f);
-                            console.log(`Checking dest: ${dest}`);
-                            if (fs.existsSync(dest)) {
-                                console.log('-> Exists');
-                                exist = true;
+            async install () {
+                let version = await this.checkInstalled(this.c2addonsPath);
+                console.log('installed version:', version, 'addon version', this.addon.version);
+                this.oldVersion = version;
+                this.newVersion = this.addon.version;
+                if (version === null)
+                    this.extract();
+                else
+                    this.showDialog = true;
+            },
+            async checkInstalled () {
+                return new Promise((resolve, reject) => {
+                    new JSZip.external.Promise((zipresolve, zipreject) => {
+                        fs.readFile(this.tmpFilePath, (err, data) => {
+                            if (err) {
+                                zipreject(err);
+                            } else {
+                                zipresolve(data);
                             }
-                        }
+                        });
+                    }).then((data) => {
+                        return JSZip.loadAsync(data);
+                    }).then((jszip) => {
+                        this.jsZipInstance = jszip;
+
+                        let installedVersion = null;
+                        Object.keys(this.jsZipInstance.files).forEach(async (filename) => {
+                            let f = path.relative('files', filename);
+                            if (f !== '' && f !== '..\\info.xml' && path.extname(f) === '') {
+                                console.log('-> ' + f);
+                                console.log('type', this.addon.type);
+
+                                let expectedDestination = path.join(this.c2addonsPath, this.addon.type + 's', f);
+                                console.log(`Expected dest: ${expectedDestination}`);
+                                //todo get version
+                                let ace = ap.export(expectedDestination, 'json');
+                                console.log(ace);
+                                installedVersion = ace.config.version;
+                            }
+                        });
+
+                        console.log('Addon already exists:' + installedVersion);
+                        resolve(installedVersion);
                     });
 
-                    console.log('Exists ? ' + exist);
-                    if (exist)
-                        this.showDialog = true;
-                    else
-                        this.extract();
                 });
+
+                /*let files = fs.readdirSync(pathToSearch);
+                for (let i = 0; i < files.length; i++) {
+                    let file = files[i];
+                    console.log("file:", file);
+                    if (file === "config.xml")
+                    {
+                        let content = fs.readFileSync(path.join(pathToSearch, file));
+                    }
+                }*/
             },
             async extract () {
                 console.log('Extracting');
@@ -168,7 +270,7 @@
                         let content = await this.jsZipInstance.files[filename].async('nodebuffer');
                         let f       = path.relative('files', filename);
 
-                        let dest = path.join(this.c2addonsPath, 'plugins', f);
+                        let dest = path.join(this.c2addonsPath, this.addon.type + 's', f);
 
                         console.log(`Creating ${path.join(dest, '..')}`);
                         mkdirp.sync(path.join(dest, '..'), {});
@@ -190,40 +292,40 @@
 
                 this.cleaned = true;
             },
-            downloadAndInstall () {
+            async download (link) {
                 /**
                  * Download
                  */
-                this.extracting = true;
-                this.tmpFilePath = path.join(os.tmpdir(), `${uuid()}.zip`);
-                console.log('tmpFilePath', this.tmpFilePath);
+                return new Promise((resolve, reject) => {
 
-                console.log(`Downloading ${this.link}`);
-                progress(request({
-                    method: 'GET',
-                    url   : this.link
-                }, () => {
+                    this.tmpFilePath = path.join(os.tmpdir(), `${uuid()}.zip`);
+                    console.log('tmpFilePath', this.tmpFilePath);
 
-                })).on('progress', (state) => {
-                    this.percent = state.percent;
-                    console.log('progress', state);
-                }).on('error', (err) => {
-                    this.progress = 100;
-                    console.log(err);
-                }).on('end', () => {
-                    this.progress = 100;
-                    console.log('File downloaded!');
-                    this.downloaded = true;
-                    // Do something after request finishes
-                }).pipe(fs.createWriteStream(this.tmpFilePath).on('close', async (file) => {
-                    let addonInfos = await c2Utilities.getAddonInfos(this.tmpFilePath);
-                    console.log('AddonInfos', addonInfos);
+                    console.log(`Downloading ${link}`);
+                    progress(request({
+                        method: 'GET',
+                        url   : link
+                    }, () => {
 
-                    this.check();
-                }));
+                    })).on('progress', (state) => {
+                        this.percent = state.percent;
+                        console.log('progress', state);
+                    }).on('error', (err) => {
+                        this.progress = 100;
+                        console.log(err);
+                    }).on('end', () => {
+                        this.progress = 100;
+                        console.log('File downloaded!');
+                        this.downloaded = true;
+                        // Do something after request finishes
+                    }).pipe(fs.createWriteStream(this.tmpFilePath).on('close', async (file) => {
+                        resolve(this.tmpFilePath);
+                    }));
+                });
             }
         },
         async mounted () {
+            // Check for updates
             let autoUpdater = this.$electron.remote.getGlobal('autoUpdater');
             autoUpdater.checkForUpdates();
             autoUpdater.on('update-available', (currentUpdate) => {
@@ -243,9 +345,6 @@
                 }
             }
 
-            if (this.pluginUrl.includes('https://www.construct.net/tr/construct-2/addons/'))
-                this.pluginUrl = this.pluginUrl.replace('https://www.construct.net/tr/construct-2/addons/', '');
-
             const options = {
                 method   : 'GET',
                 url      : encodeURI(this.pluginUrl),
@@ -260,14 +359,32 @@
 
                 console.log('Page loaded.');
 
-                this.description = this.$('.addonDescription').text();
-                this.link        = `${this.endpoint}/${this.$('div.col.infoCol > h2:nth-child(1)')
-                                                           .next().next().attr('href')}`;
-                this.name        = this.$('.addonIconWrap').parent().text().replace(/<img(.*)\/>/g, '').trim();
-                this.icon        = this.$('.addonTopInfo > h1 > span > img').data('src');
+                this.link = `${this.endpoint}/${this.$('div.col.infoCol > h2:nth-child(1)')
+                                                    .next().next().attr('href')}`;
+                this.icon = this.$('.addonTopInfo > h1 > span > img').data('src');
 
                 this.c2addonsPath = path.join(this.$electron.remote.app.getPath('appData'), 'Construct2');
                 console.log('c2addonsPath', this.c2addonsPath);
+
+                let p      = await this.download(this.link);
+                this.addon = await c2Utilities.getAddonInfos(p);
+
+                if (this.addon.type === 'effect') {
+                    this.addon              = null;
+                    this.notSupportedEffect = true;
+                }
+
+                /*this.addon = {
+                    'type'         : 'behavior',
+                    'name'         : 'Ground Follow',
+                    'version'      : '1.0',
+                    'author'       : 'Mimiste',
+                    'website'      : 'https://github.com/Mimiste/c2-groundfollow-behavior',
+                    'documentation': '',
+                    'description'  : 'A Construct 2 behavior to enhance the platform behavior and make the character follow the ground angle accurately.'
+                };*/
+
+                console.log(this.addon);
             } catch (err) {
                 console.log(err);
                 Raven.captureException(err);
@@ -310,5 +427,25 @@
 
     .buttons-bottom button {
         margin: 15px 5px 15px 5px;
+    }
+
+    .version {
+        position: absolute;
+        bottom: 0;
+        left: 3px;
+    }
+
+    .donate {
+        position: absolute;
+        bottom: 0;
+        right: 6px;
+    }
+
+    .notSupported {
+        text-align: center;
+        margin-top: 50vh;
+        transform: translateY(-50%);
+        font-size: 25px;
+        color: grey;
     }
 </style>

@@ -4,28 +4,26 @@ import JSZip from 'jszip';
 
 export default {
     getAddonInfos (file) {
-        return new JSZip.external.Promise((resolve, reject) => {
-            fs.readFile(file, (err, data) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(data);
-                }
+        return new Promise(resolve => {
+            return new JSZip.external.Promise((zipresolve, zipreject) => {
+                fs.readFile(file, (err, data) => {
+                    if (err) {
+                        zipreject(err);
+                    } else {
+                        zipresolve(data);
+                    }
+                });
+            }).then((data) => {
+                return JSZip.loadAsync(data);
+            }).then((jszip) => {
+                Object.keys(jszip.files).forEach(async (filename) => {
+                    if (filename === 'info.xml') {
+                        let content = await jszip.files[filename].async('string');
+                        let xml     = await this.getAddonInfosFromXml(content);
+                        resolve(xml);
+                    }
+                });
             });
-        }).then((data) => {
-            return JSZip.loadAsync(data);
-        }).then((jszip) => {
-            let content = '';
-            Object.keys(jszip.files).forEach(async (filename) => {
-                if (filename === 'info.xml') {
-                    let content = await jszip.files[filename].async('string');
-                    let xml     = await this.getAddonInfosFromXml(content);
-                    console.log(xml);
-                    console.log(JSON.stringify(xml));
-                    console.log(JSON.parse(JSON.stringify(xml)));
-                }
-            });
-            return content;
         });
     },
 
