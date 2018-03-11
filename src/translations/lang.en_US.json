@@ -6,7 +6,7 @@
   "installer": {
     "modal": {
       "askOverwrite": "Do you want to overwrite the addon ?",
-      "alreadyInstalledAddonDescription": "This addon is already installed. You have the choice to replace it or to not install it"
+      "alreadyInstalledAddonDescription": "This addon is already installed {0}. You have the choice to replace it or to not install it"
     },
     "installedButton": "Installed",
     "mainQuestion": "Are you sure you want to install {0} ?"

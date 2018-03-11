@@ -37,13 +37,14 @@ ${$('.infoCol').first().html()}`);
 
 // every link
 $('a').each(function (index, element) {
-    let regexp = /https?:\/\/(www\.)?construct\.net\/(.*)construct-2\/addons\//;
+    let regexp = /https?:\/\/(www\.)?construct\.net\/(.*)construct-2\/addons\/[0-9]*\/[a-zA-Z0-9-_\.]*(\/$|$)/img;
+    let regexpName = /https?:\/\/(www\.)?construct\.net\/(.*)construct-2\/addons\//img;
     let link   = $(element).attr('href');
     if (link !== undefined && link !== null) {
         if (link.match(regexp)) {
             $(element).after(
                 `
-                <a class="install-button" href="addoninstaller://${link.replace(regexp, '')}">Install now</a>
+                <a class="install-button" href="addoninstaller://${link.replace(regexpName, '')}">Install now</a>
                 `
             );
         }

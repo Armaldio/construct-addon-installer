@@ -31,12 +31,16 @@
             <v-btn dark flat large @click.once="InstallUpdate">{{ $t('update.installNow') }}</v-btn>
             <v-btn dark flat large @click.once="updateAvailable = false">{{ $t('common.close') }}</v-btn>
         </v-snackbar>
+
+        <span class="version">v{{ version }}</span>
     </div>
 </template>
 
 <script>
     import Raven from 'raven';
     import opn from 'opn';
+
+    import pkg from '../../../package';
 
     Raven.config('https://9ae8166a8a7941d0a254f211e1890b93:7e72d5dc78c64499abc369152585db10@sentry.io/297440')
          .install();
@@ -48,7 +52,8 @@
                 checkingForUpdates: false,
                 updateReady       : false,
                 downloadPercent   : 0,
-                updateAvailable   : false
+                updateAvailable   : false,
+                version: pkg.version
             };
         },
         methods: {
@@ -71,19 +76,10 @@
 </script>
 
 <style scoped>
-    .update {
-        position: absolute;
-        bottom: 3px;
-        right: 0;
-    }
-
-    .bottom {
+    .version {
         position: absolute;
         bottom: 0;
-        right: 0;
-        left: 0;
-        margin-top: 0;
-        margin-bottom: 0;
+        left: 3px;
     }
 
     .btns {

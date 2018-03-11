@@ -80,7 +80,7 @@ app.on('ready', () => {
     console.info('Ready time (hr): %ds %dms', hrend[0], hrend[1] / 1000000);
 
     if (process.env.TEST_ADDON === 'true')
-        process.argv.push('addoninstaller://87/ground-follow');
+        process.argv.push('addoninstaller://94/bounded-drag-drop');
     else if (process.env.TEST_UPDATER === 'true')
         process.argv.push('--update');
 

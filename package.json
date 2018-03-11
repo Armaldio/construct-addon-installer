@@ -1,6 +1,6 @@
 {
   "name": "installer",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "author": "Quentin Goinaud <armaldio@gmail.com>",
   "description": "Install and manage your C2 addons",
   "license": "MIT",
@@ -23,7 +23,9 @@
     "webext:opera": "shipit opera BrowserExtension",
     "changelog": "node scripts/changelog-generator.js",
     "test": "npm run unit",
-    "unit": "karma start test/unit/karma.conf.js"
+    "unit": "karma start test/unit/karma.conf.js",
+    "butler": "npm-run-all butler:*",
+    "butler:pushWindows": "node scripts/butler-upload.js"
   },
   "build": {
     "productName": "C2 Addon Installer",
@@ -79,12 +81,12 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "c2-addon-parser": "^0.6.3",
     "cheerio": "^1.0.0-rc.2",
     "electron-is-dev": "^0.3.0",
     "electron-store": "^1.3.0",
     "electron-updater": "^2.20.1",
     "jszip": "^3.1.5",
-    "lru-cache": "^4.1.1",
     "mkdirp": "^0.5.1",
     "node-notifier": "^5.2.1",
     "opn": "^5.2.0",
