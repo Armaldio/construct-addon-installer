@@ -5,8 +5,8 @@
     },
     "installer": {
         "modal": {
-            "askOverwrite": "Êtes-vous sur de vouloir écraser cet addon ?",
-            "alreadyInstalledAddonDescription": "Ce module est déjà installé. Souhaitez-vous le remplacer ?"
+            "askOverwrite": "Êtes-vous sur de vouloir écraser ce module ?",
+            "alreadyInstalledAddonDescription": "Ce module est déjà installé {0}. Souhaitez-vous le remplacer ?"
         },
         "installedButton": "Installé",
         "mainQuestion": "Êtes-vous sûr de vouloir installer {0} ?"
