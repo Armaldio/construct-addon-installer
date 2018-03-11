@@ -5,7 +5,7 @@ const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
 async function windowsUpload (branch, build) {
-    let command = `${process.cwd()}/ext-bin/butler.exe push "build/${pkg.build.productName} Setup ${pkg.version}${branch !== 'master' ? '.' + build : ''}.exe" armaldio/construct-addon-installer:${branch === 'master' ? 'windows-stable' : 'windows-nightly'} --userversion ${pkg.version}${branch !== 'master' ? '.' + build : ''}`;
+    let command = `${process.cwd()}/ext-bin/butler.exe push "build/${pkg.build.productName} Setup ${pkg.version}.exe" armaldio/construct-addon-installer:${branch === 'master' ? 'windows-stable' : 'windows-nightly'} --userversion ${pkg.version}${branch !== 'master' ? '.' + build : ''}`;
     console.log(command);
     const {stdout, stderr} = await exec(command);
     console.log('stdout:', stdout);
