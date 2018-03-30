@@ -1,5 +1,6 @@
 <template>
     <div class="titlebar draggable">
+        <img src="../assets/256x256.png" alt="" height="24px" class="icon ml-1">
         <div class="app-title">C2 Addon Installer</div>
         <div class="titlebar-controls">
             <div class="titlebar-minimize" @click="minimize">

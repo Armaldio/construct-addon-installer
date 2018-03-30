@@ -1,6 +1,6 @@
 {
   "name": "installer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Quentin Goinaud <armaldio@gmail.com>",
   "description": "Install and manage your C2 addons",
   "license": "MIT",
@@ -85,8 +85,10 @@
     "cheerio": "^1.0.0-rc.2",
     "electron-is-dev": "^0.3.0",
     "electron-store": "^1.3.0",
+    "electron-unhandled": "^1.0.0",
     "electron-updater": "^2.20.1",
     "jszip": "^3.1.5",
+    "lowdb": "^1.0.0",
     "mkdirp": "^0.5.1",
     "node-notifier": "^5.2.1",
     "opn": "^5.2.0",

@@ -24,7 +24,10 @@
                     </div>
 
                     <div v-show="!cleaned && !extracting" class="buttons-bottom">
-                        <v-btn color="green" @click="install">{{ $t('common.yes') }}</v-btn>
+                        <v-tooltip open-delay="500" top>
+                            <v-btn slot="activator" color="green" @click="install">{{ $t('common.yes') }}</v-btn>
+                            <span>Install location: {{ installLocation }}</span>
+                        </v-tooltip>
                         <v-btn color="red" @click="$electron.remote.app.quit()">{{ $t('common.no') }}</v-btn>
                     </div>
                     <div v-show="extracting" class="buttons-bottom">
@@ -135,6 +138,12 @@
             }
         },
         computed  : {
+            installLocation () {
+                if (this.$db.get('settings.customfolder.isDefault').value())
+                    return this.$db.get('settings.customfolder.path').value();
+                else
+                    return path.join(this.$electron.remote.app.getPath('appData'), 'Construct2');
+            },
             addonToList () {
                 if (this.addon === null)
                     return [];
@@ -363,7 +372,14 @@
                                                     .next().next().attr('href')}`;
                 this.icon = this.$('.addonTopInfo > h1 > span > img').data('src');
 
-                this.c2addonsPath = path.join(this.$electron.remote.app.getPath('appData'), 'Construct2');
+                let customFolderAsRoot = this.$db.get('settings.customfolder.isDefault').value();
+                if (customFolderAsRoot) {
+                    let customPath    = this.$db.get('settings.customfolder.path').value();
+                    this.c2addonsPath = path.join(customPath, 'exporters', 'html5');
+                }
+                else
+                    this.c2addonsPath = path.join(this.$electron.remote.app.getPath('appData'), 'Construct2');
+
                 console.log('c2addonsPath', this.c2addonsPath);
 
                 let p      = await this.download(this.link);
