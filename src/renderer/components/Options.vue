@@ -19,7 +19,7 @@
         <v-icon left dark>fab fa-opera</v-icon>
         Opera
       </v-btn>
-      <v-btn @click="open('https://github.com/armaldio/AddonInstaller')">
+      <v-btn @click="open('https://github.com/WebCreationClub/construct-addon-installer')">
         <v-icon left dark>fab fa-github</v-icon>
         {{ $t('options.viewProjectOnGithub') }}
       </v-btn>
