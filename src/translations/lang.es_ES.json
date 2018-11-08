@@ -1,0 +1,30 @@
+{
+    "main": {
+        "setAsDefaultNotification": "La aplicación se ha definido para manejar los enlaces de complementos en el navegador con éxito",
+        "analysingPlugin": "Analizando plugin..."
+    },
+    "installer": {
+        "modal": {
+            "askOverwrite": "¿Desea sobreescribir este complemento?",
+            "alreadyInstalledAddonDescription": "Este complemento ya se encuentra instalado. Usted tiene la opcion de reemplazarlo o instalarlo"
+        },
+        "installedButton": "Instalado",
+        "mainQuestion": "¿Esta seguro de que quiere instalar {0}?"
+    },
+    "common": {
+        "yes": "si",
+        "no": "no",
+        "close": "Cerrar"
+    },
+    "options": {
+        "noOptionsAvailable": "Actualmente no hay actualizacione disponibles",
+        "updating": "Actualizando",
+        "updateReady": "Actualizacion lista",
+        "checkingForUpdates": "Buscando actualizaciones",
+        "viewProjectOnGithub": "Ver el proyecto en Github"
+    },
+    "update": {
+        "newUpdateAvailable": "Una nueva actualizacion de la aplicacion esta disponible",
+        "installNow": "Instalar ahora"
+    }
+}

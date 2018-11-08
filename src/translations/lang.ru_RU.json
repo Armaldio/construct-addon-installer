@@ -1,0 +1,30 @@
+{
+    "main": {
+        "setAsDefaultNotification": "Приложение должно быть определено чтобы эффективно управлять ссылками на плагины в браузере!",
+        "analysingPlugin": "Плагин анализируется..."
+    },
+    "installer": {
+        "modal": {
+            "askOverwrite": "Хотите перезаписать аддон?",
+            "alreadyInstalledAddonDescription": "Этот аддон уже установлен. Вы можете выбрать между его заменой или пропустить его установку."
+        },
+        "installedButton": "Установлено",
+        "mainQuestion": "Вы уверены, что хотите установить {0} ?"
+    },
+    "common": {
+        "yes": "Да",
+        "no": "Нет",
+        "close": "Закрыть"
+    },
+    "options": {
+        "noOptionsAvailable": "На данный момент нет доступных опций...",
+        "updating": "Обновляется",
+        "updateReady": "Обновление готово",
+        "checkingForUpdates": "Проверка на обновления",
+        "viewProjectOnGithub": "Посмотреть проект на Github"
+    },
+    "update": {
+        "newUpdateAvailable": "Для этого приложения доступно обновление",
+        "installNow": "Установить сейчас"
+    }
+}

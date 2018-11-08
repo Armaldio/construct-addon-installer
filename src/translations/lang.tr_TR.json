@@ -6,12 +6,25 @@
     "installer": {
         "modal": {
             "askOverwrite": "Eklentinin üzerine yazmak istiyor musunuz?",
-            "alreadyInstalledAddonDescription": "Bu eklenti zaten yüklü. Değiştirme veya yüklememe seçeneğiniz vardır"
+            "alreadyInstalledAddonDescription": "Bu eklenti zaten yüklü. Değiştirme veya yüklememe seçeneğiniz vardır."
         },
-        "installedButton": "Yüklendi"
+        "installedButton": "Yüklendi",
+        "mainQuestion": "{0} 'i yüklemek istediğinizden emin misiniz?"
     },
     "common": {
         "yes": "Evet",
-        "no": "Hayır"
+        "no": "Hayır",
+        "close": "Kapat"
+    },
+    "options": {
+        "noOptionsAvailable": "Şu anda mevcut seçenek yok ...",
+        "updating": "Güncelleniyor",
+        "updateReady": "Güncelleme hazır",
+        "checkingForUpdates": "Güncellemeler kontrol ediliyor",
+        "viewProjectOnGithub": "Projeyi Github'da görüntüle"
+    },
+    "update": {
+        "newUpdateAvailable": "Uygulamanın yeni bir güncellemesi var",
+        "installNow": "Şimdi yükle"
     }
 }

@@ -1,0 +1,30 @@
+{
+    "main": {
+        "setAsDefaultNotification": "Aplikacja jest pomyslnie zainstalowana jako wtyczka!",
+        "analysingPlugin": "ANALIZOWANIE PLUGINU..."
+    },
+    "installer": {
+        "modal": {
+            "askOverwrite": "Czy chcesz zamienić plugin?",
+            "alreadyInstalledAddonDescription": "Ten plugin już został zainstalowany {0}."
+        },
+        "installedButton": "Zainstalowany",
+        "mainQuestion": "Czy na pewno chcesz zainstalować {0} ?"
+    },
+    "common": {
+        "yes": "Tak",
+        "no": "Nie",
+        "close": "Zamknij"
+    },
+    "options": {
+        "noOptionsAvailable": "Narazie tu nie ma opcji...",
+        "updating": "Aktualizujowanie...",
+        "updateReady": "Aktualizacja gotowa!",
+        "checkingForUpdates": "Sprawdzam aktualizacje...",
+        "viewProjectOnGithub": "Zobacz projekt na Github"
+    },
+    "update": {
+        "newUpdateAvailable": "Dostępna jest nowa aktualiazacja dla aplikacji",
+        "installNow": "Zainstaluj"
+    }
+}
