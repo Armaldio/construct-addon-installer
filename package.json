@@ -1,5 +1,5 @@
 {
-  "name": "addon-installer-v2",
+  "name": "addon-installer",
   "version": "0.2.0",
   "author": "Armaldio <armaldio@gmail.com>",
   "description": "Never worry about installing an addon by hand again ",
